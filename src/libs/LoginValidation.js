@@ -15,3 +15,16 @@ export const UserExists = async (username) => {
     return error.message;
   }
 };
+
+export const checkpass = async (username, password) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT password FROM users WHERE username = ?",
+      username
+    );
+    const validator = await bcrypt.compare(password, rows[0].password )
+    return validator;
+  } catch (error) {
+    return error.message;
+  }
+};

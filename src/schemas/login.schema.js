@@ -54,8 +54,6 @@ export const registerSchema = z.object({
       message: "Bio can not contain spaces",
     })
     .optional(),
-
-  dietary: z.string().array().optional(),
 });
 
 export const loginScheme = z.object({
@@ -68,10 +66,24 @@ export const loginScheme = z.object({
     .refine((value) => value.trim() === value, {
       message: "Name can not contains spaces",
     }),
-    
+
   password: z
     .string({
       required_error: "Password is required",
     })
     .min(6, { message: "Password must be at least 6 characters long" }),
+});
+
+export const changepasswordschema = z.object({
+  password: z
+    .string({
+      required_error: "Password is required",
+    })
+    .min(6, { message: "Password must be at least 6 characters long" }),
+
+  newpassword: z
+    .string({
+      required_error: "New password is required",
+    })
+    .min(6, { message: "New password must be at least 6 characters long" }),
 });
