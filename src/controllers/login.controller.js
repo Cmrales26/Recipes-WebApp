@@ -17,7 +17,7 @@ export const createuser = async (req, res) => {
 
   try {
     const [newUser] = await pool.query(
-      "INSERT INTO users (name, lastname, username, email, password, bio) VALUES (?,?,?,?,?,?)",
+      "INSERT INTO users (name, lastname, username, email, password, bio,rol,status) VALUES (?,?,?,?,?,?,?,?)",
       [
         data.name,
         data.lastname,
@@ -25,6 +25,8 @@ export const createuser = async (req, res) => {
         data.email,
         PasswordHash,
         data.bio,
+        "user",
+        "1",
       ]
     );
 
