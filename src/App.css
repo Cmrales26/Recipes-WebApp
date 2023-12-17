@@ -3,3 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+.categoria{
+  cursor: pointer;
+  padding: .5rem 1rem;
+  border: 1px solid red;
+  display: inline-block;
+  margin: 1rem;
+}

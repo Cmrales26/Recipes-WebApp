@@ -1,6 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { LoginRequestHandler } from "../api/auth";
+import {
+  LoginRequestHandler,
+  CreateuserRequestHandler,
+  SaveDietaryRequestHandler,
+} from "../api/auth";
 
 export const Usercontext = createContext();
 
@@ -14,8 +18,18 @@ export const UseUser = () => {
 };
 
 export const UserProvider = ({ children }) => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    if (error.length > 0) {
+      const timer = setTimeout(() => {
+        setError("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   const loginUser = async (data) => {
     try {
@@ -29,8 +43,34 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const creatUser = async (data) => {
+    try {
+      delete data.password2;
+      const res = await CreateuserRequestHandler(data);
+      console.log(data);
+      setUser(data);
+      console.log(res);
+      setIsAuth(true);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const saveusercategory = async (username, data) => {
+    try {
+      const res = await SaveDietaryRequestHandler(username, data);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
   return (
-    <Usercontext.Provider value={{ isAuth, loginUser, error }}>
+    <Usercontext.Provider
+      value={{ isAuth, error, user, creatUser, loginUser, saveusercategory }}
+    >
       {children}
     </Usercontext.Provider>
   );
