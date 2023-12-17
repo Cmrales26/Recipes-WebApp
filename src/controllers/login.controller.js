@@ -48,12 +48,12 @@ export const createuser = async (req, res) => {
 export const saveuser_dietaty = async (req, res) => {
   const user = req.params;
   const data = req.body;
-
+  
   try {
-    for (let i = 0; i < data.dietary.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       const [rows] = await pool.query(
         "INSERT INTO user_categoria (id_usuario, id_categoria) VALUES (?,?)",
-        [user.username, data.dietary[i]]
+        [user.username, data[i]]
       );
     }
     res.json({ message: "success" });

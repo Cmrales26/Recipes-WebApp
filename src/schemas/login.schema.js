@@ -49,7 +49,6 @@ export const registerSchema = z.object({
   bio: z
     .string()
     .max(250, { message: "Bio is too long" })
-    .min(6, { message: "Bio is too short" })
     .refine((value) => value.trim() === value, {
       message: "Bio can not contain spaces",
     })
