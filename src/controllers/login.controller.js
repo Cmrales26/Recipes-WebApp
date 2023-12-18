@@ -32,13 +32,6 @@ export const createuser = async (req, res) => {
 
     delete data.password;
 
-    const token = await createAccesToken(data);
-
-    res.cookie("token", token, {
-      sameSite: "none",
-      secure: true,
-    });
-
     res.status(200).json(data);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -94,7 +87,7 @@ export const loginuser = async (req, res) => {
       secure: true,
     });
 
-    res.status(200).json(rows);
+    res.status(200).json(rows[0]);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
