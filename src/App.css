@@ -1,12 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
 * {
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.categoria{
+body {
+  background: black;
+  margin: 50px auto;
+  width: 425px;
+  /* border: 1px solid red; */
+}
+.LoginFormConainer {
+  border-radius: 10px;
+  background-color: #eef0ef;
+  padding: 2rem;
+  & h3 {
+    font-size: 19px;
+    font-weight: 400;
+  }
+  & p {
+    color: gray;
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+.rememberpass {
+  & a {
+    color: #3c9eef;
+  }
+  text-align: right;
+  font-size: 14px;
+}
+.formularioIniciar {
+  margin-top: 1rem;
+}
+.MuiTextField-root {
+  margin: 8px 0px !important;
+}
+.btncontainer {
+  margin-top: 1rem;
+}
+.btnlogin {
+  width: 100%;
+}
+.error {
+  color: red !important;
+}
+.servereror {
+  margin-top: 1rem;
+  text-align: center;
+  padding: 0.5rem;
+  color: white;
+  background-color: red;
+  border-radius: 5px;
+}
+
+.user_categories {
+  background-color: #eef0ef;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.homepagerecipes{
+  background-color: #eef0ef;
+}
+.Titleuser_category {
+  text-align: center;
+  margin-bottom: 1rem;
+  span {
+    color: #3c9eef;
+    font-weight: 600;
+  }
+}
+.Category_Selected > p,
+.Category_Unselected > p {
+  padding: 2rem;
+}
+
+.categoria {
+  border-radius: 100px;
   cursor: pointer;
-  padding: .5rem 1rem;
-  border: 1px solid red;
+  padding: 0.5rem 0.5rem;
+  border: 1px solid #3c9eef;
   display: inline-block;
-  margin: 1rem;
+  margin: 0.5rem;
+}
+.btns_category {
+  margin-top: 2rem;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.SearchIcon{
+  font-size: 14px;
 }

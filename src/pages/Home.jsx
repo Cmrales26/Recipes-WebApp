@@ -1,9 +1,9 @@
-import Popular from "../components/Popular";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
-    <div>
-      <Popular />
+    <div className="homepagerecipes">
+      <Navbar className="NavbarHome" />
     </div>
   );
 };

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { UseCategories } from "../context/Categories.context";
 import { UseUser } from "../context/user.context";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 const UserSelectCategories = () => {
-  const { user, saveusercategory } = UseUser();
+  const { user, saveusercategory, loading: userLoading, loginUser } = UseUser();
   const { getCategories, categories, loading } = UseCategories();
 
   const [nonselected, setNonselected] = useState([]);
@@ -26,6 +28,10 @@ const UserSelectCategories = () => {
     }
   }, [categories, selected]);
 
+  if (userLoading) {
+    return <h1>Loading...</h1>;
+  }
+
   const handleSelect = (category) => {
     const indexNonselected = nonselected.indexOf(category);
     if (indexNonselected !== -1) {
@@ -46,51 +52,81 @@ const UserSelectCategories = () => {
     return <div>Loading...</div>;
   }
 
-  const saveCategories = (username, value) => {
+  const login = (username, password) => {
+    loginUser({ username: username, password: password });
+  };
+
+  const saveCategories = (username, value, password) => {
     let dietary = [];
     for (let i = 0; i < value.length; i++) {
       dietary.push(value[i].id_categoria);
     }
     saveusercategory(username, dietary);
+    login(username, password);
+
     console.log(username, dietary);
   };
 
   return (
-    <>
-      <div>{user.name} Seleccione sus categorias favoritas</div>
+    <section className="user_categories">
+      <div className="Titleuser_category">
+        <h1>
+          <span> {user.name} </span>Seleccione sus categorias favoritas
+        </h1>
+      </div>
       <div className="Category_Selected">
         <h3> Categorias Selecionadas </h3>
-        {selected.map((category) => (
-          <div
-            className="categoria"
-            key={category.id_categoria}
-            onClick={() => handleSelect(category)}
-          >
-            {category.nombre_categoria}
-          </div>
-        ))}
+        {selected.length === 0 ? (
+          <p>No hay categorías seleccionadas</p>
+        ) : (
+          selected.map((category) => (
+            <div
+              className="categoria"
+              key={category.id_categoria}
+              onClick={() => handleSelect(category)}
+            >
+              {category.nombre_categoria}
+            </div>
+          ))
+        )}
       </div>
       <div className="Category_Unselected">
         <h3>Categorias</h3>
-        {nonselected.map((category) => (
-          <div
-            className="categoria"
-            key={category.id_categoria}
-            onClick={() => handleSelect(category)}
-          >
-            {category.nombre_categoria}
-          </div>
-        ))}
+        {nonselected.length === 0 ? (
+          <p>No hay categorías disponibles</p>
+        ) : (
+          nonselected.map((category) => (
+            <div
+              className="categoria"
+              key={category.id_categoria}
+              onClick={() => handleSelect(category)}
+            >
+              {category.nombre_categoria}
+            </div>
+          ))
+        )}
       </div>
       <div>
-        <button
-          className="btn btn-primary"
-          onClick={() => saveCategories(user.username, selected)}
-        >
-          Guardar
-        </button>
+        <Stack className="btns_category" spacing={2} direction="row">
+          <Button
+            variant="contained"
+            className="btn btn-primary btn-category"
+            onClick={() =>
+              saveCategories(user.username, selected, user.password)
+            }
+          >
+            Guardar
+          </Button>
+          <Button
+            variant="outlined"
+            className="btn btn-primary btn-category"
+            onClick={() => login(user.username, user.password)}
+          >
+            Omitir
+          </Button>
+        </Stack>
       </div>
-    </>
+    </section>
   );
 };
 

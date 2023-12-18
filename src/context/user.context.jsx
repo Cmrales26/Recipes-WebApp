@@ -4,7 +4,12 @@ import {
   LoginRequestHandler,
   CreateuserRequestHandler,
   SaveDietaryRequestHandler,
+  CheckLogin,
 } from "../api/auth";
+
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 export const Usercontext = createContext();
 
@@ -20,7 +25,8 @@ export const UseUser = () => {
 export const UserProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (error.length > 0) {
@@ -31,29 +37,31 @@ export const UserProvider = ({ children }) => {
     }
   }, [error]);
 
-  const loginUser = async (data) => {
-    try {
-      const res = await LoginRequestHandler(data);
-      console.log(data);
-      console.log(res);
-      setIsAuth(true);
-    } catch (error) {
-      setError(error.response.data.message);
-      console.log(error.response.data.message);
-    }
-  };
-
   const creatUser = async (data) => {
     try {
       delete data.password2;
       const res = await CreateuserRequestHandler(data);
+      console.log(res);
       console.log(data);
       setUser(data);
-      console.log(res);
       setIsAuth(true);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
+      return "error"
+    }
+  };
+
+  const loginUser = async (data) => {
+    try {
+      const res = await LoginRequestHandler(data);
+      console.log(res.data);
+      setUser(res.data);
+      setIsAuth(true);
+      setLoading(false);
+    } catch (error) {
+      setError(error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
 
@@ -67,9 +75,38 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    async function logincheck() {
+      let token = cookies.get("token");
+      if (!token) {
+        setIsAuth(false);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await CheckLogin();
+        setIsAuth(true);
+        setUser(res.data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+    logincheck();
+  }, [isAuth, loading]);
+
   return (
     <Usercontext.Provider
-      value={{ isAuth, error, user, creatUser, loginUser, saveusercategory }}
+      value={{
+        isAuth,
+        error,
+        user,
+        loading,
+        creatUser,
+        loginUser,
+        saveusercategory,
+      }}
     >
       {children}
     </Usercontext.Provider>
