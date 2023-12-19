@@ -8,15 +8,23 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faUser,
+  faChevronDown,
+  faGear,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { UseUser } from "../context/user.context";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-
+  const { logout, user } = UseUser();
+  const Navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
@@ -27,13 +35,18 @@ const Navbar = () => {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    handleClose();
+    logout();
+  };
+
   return (
     <>
       <AppBar position="static" className="navbar">
-        <Link to="#">
-          <p>Recetas NM</p>
-        </Link>
         <Toolbar>
+          {/* <Link to="#">
+          <p>Recetas NM</p>
+        </Link> */}
           <Stack direction={"row"} spacing={5}>
             <TextField
               size="small"
@@ -57,6 +70,7 @@ const Navbar = () => {
                 aria-expanded={open ? "true" : undefined}
               >
                 <FontAwesomeIcon icon={faUser} />
+                <FontAwesomeIcon icon={faChevronDown} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -68,12 +82,34 @@ const Navbar = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem
+                onClick={() => Navigate(`/Profile/${user.username}`)}
+                className="SeeUser"
+              >
+                <FontAwesomeIcon icon={faUser} className="seeUserInfo" />
+                <div className="usernameinfo">
+                  {user.name + " " + user.lastname}
+                </div>
+                <hr />
+              </MenuItem>
+
+              <MenuItem onClick={handleClose}>
+                {" "}
+                <FontAwesomeIcon
+                  icon={faGear}
+                  className="seeUserInfo seeUserInfo-small"
+                />
+                <div className="usernameinfo">Configuración</div>{" "}
+              </MenuItem>
+
+              <MenuItem onClick={handleLogout}>
+                {" "}
+                <FontAwesomeIcon
+                  icon={faArrowRightFromBracket}
+                  className="seeUserInfo seeUserInfo-small "
+                />
+                <div className="usernameinfo">Cerrar Sesión</div>
+              </MenuItem>
             </Menu>
           </Stack>
         </Toolbar>

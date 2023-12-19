@@ -5,6 +5,7 @@ import {
   CreateuserRequestHandler,
   SaveDietaryRequestHandler,
   CheckLogin,
+  LogoutRequestHandler,
 } from "../api/auth";
 
 import Cookies from "universal-cookie";
@@ -48,7 +49,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
-      return "error"
+      return "error";
     }
   };
 
@@ -69,6 +70,18 @@ export const UserProvider = ({ children }) => {
     try {
       const res = await SaveDietaryRequestHandler(username, data);
       console.log(res);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const res = await LogoutRequestHandler();
+      console.log(res);
+      setUser(null);
+      setIsAuth(false);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
@@ -106,6 +119,7 @@ export const UserProvider = ({ children }) => {
         creatUser,
         loginUser,
         saveusercategory,
+        logout,
       }}
     >
       {children}

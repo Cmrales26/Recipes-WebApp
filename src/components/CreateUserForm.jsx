@@ -199,6 +199,7 @@ const CreateUserForm = (props) => {
           })}
           placeholder="Biografia"
         />
+        {errors.bio && <div className="error">{errors.bio.message}</div>}
       </div>
 
       <Stack spacing={1} direction="row" className="btncontainer">

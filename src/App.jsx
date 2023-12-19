@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import { UserProvider } from "./context/user.context";
 import { CategoriesProvider } from "./context/Categories.context";
 import Protectedroute from "./Protectedroute";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route element={<Protectedroute />}>
               <Route path="/home" element={<Home />}></Route>
+              <Route path="/Profile/:username" element={<Profile />}></Route>
             </Route>
           </Routes>
         </CategoriesProvider>

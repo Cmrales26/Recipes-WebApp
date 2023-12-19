@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 body {
-  background: black;
+  background: #3c9eef;
   margin: 50px auto;
   width: 425px;
   /* border: 1px solid red; */
@@ -62,8 +62,10 @@ body {
   padding: 2rem;
   border-radius: 10px;
 }
-.homepagerecipes{
+.homepagerecipes,
+.Profile {
   background-color: #eef0ef;
+  border-radius: 10px;
 }
 .Titleuser_category {
   text-align: center;
@@ -72,6 +74,9 @@ body {
     color: #3c9eef;
     font-weight: 600;
   }
+}
+.Profile {
+  padding: 2rem 1rem;
 }
 .Category_Selected > p,
 .Category_Unselected > p {
@@ -93,11 +98,127 @@ body {
   display: flex;
   justify-content: center;
 }
-.navbar{
+.navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
-.SearchIcon{
+header {
+  background-color: transparent !important;
+  padding: 0;
+  margin: 0;
+}
+.SearchIcon {
   font-size: 14px;
+}
+.fa-user {
+  color: #3c9eef;
+  font-weight: 900;
+  font-size: 30px;
+  margin-top: 0.7rem;
+}
+.MuiList-root {
+  background-color: #eef0ef !important;
+  padding: 1rem !important;
+}
+.SeeUser {
+  border-radius: 10px !important;
+  width: 250px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 1rem 2rem !important;
+  margin-bottom: 0.5rem !important;
+}
+.seeUserInfo {
+  color: white;
+  font-size: 25px;
+  margin: 0 !important;
+  padding: 0.5rem;
+  background-color: gray;
+  border-radius: 100px;
+}
+.seeUserInfo-small {
+  padding: 0.5rem;
+}
+.fa-arrow-right-from-bracket,
+.fa-gear {
+  font-size: 20px;
+}
+.usernameinfo {
+  margin-left: 1rem;
+}
+.fa-chevron-down {
+  margin-top: 0.7rem;
+  margin-left: 1rem;
+  color: black;
+}
+.profilenavigation {
+  padding: 0rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  a {
+    color: #193f5f;
+    .fa-arrow-left {
+      font-size: 20px;
+    }
+    .fa-pen {
+      font-size: 15px;
+    }
+  }
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  color: #193f5f;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profileimage {
+  margin-top: 2rem;
+  /* border: 1px solid red; */
+  width: 110px;
+  & img {
+    width: 100%;
+    border-radius: 100%;
+  }
+}
+.contact {
+  color: gray;
+}
+.Navigationdow {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  a {
+    color: #193f5f;
+    text-decoration: none;
+  }
+}
+.fa-heart,
+.fa-layer-group,
+.fa-star,
+.fa-gear,
+.fa-power-off {
+  margin-right: 1rem;
+}
+
+.UserInfoCag {
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  margin-bottom: 1rem;
+  padding: 1rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.UserInfoCag:hover,
+.logout:hover {
+  background-color: rgb(211, 208, 208);
+}
+.logout {
+  margin-top: 1rem;
+  padding: 1rem 1rem;
+  border-radius: 10px;
+  a {
+    color: red;
+    text-decoration: none;
+  }
 }
