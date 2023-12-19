@@ -201,6 +201,11 @@ header {
 .fa-power-off {
   margin-right: 1rem;
 }
+.contact{
+  p{
+    margin-top: 1rem;
+  }
+}
 
 .UserInfoCag {
   /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
@@ -218,6 +223,7 @@ header {
   padding: 1rem 1rem;
   border-radius: 10px;
   a {
+    margin-right: 1rem;
     color: red;
     text-decoration: none;
   }

@@ -93,7 +93,11 @@ const Navbar = () => {
                 <hr />
               </MenuItem>
 
-              <MenuItem onClick={handleClose}>
+              <MenuItem
+                onClick={() =>
+                  Navigate(`/Profile/${user.username}/configuration`)
+                }
+              >
                 {" "}
                 <FontAwesomeIcon
                   icon={faGear}
@@ -101,7 +105,6 @@ const Navbar = () => {
                 />
                 <div className="usernameinfo">Configuración</div>{" "}
               </MenuItem>
-
               <MenuItem onClick={handleLogout}>
                 {" "}
                 <FontAwesomeIcon
