@@ -17,11 +17,12 @@ export const createuser = async (req, res) => {
 
   try {
     const [newUser] = await pool.query(
-      "INSERT INTO users (name, lastname, username, email, password, bio,rol,status) VALUES (?,?,?,?,?,?,?,?)",
+      "INSERT INTO users (name, lastname, username, email,phone, password, bio,rol,status) VALUES (?,?,?,?,?,?,?,?)",
       [
         data.name,
         data.lastname,
         data.username,
+        data.email,
         data.email,
         PasswordHash,
         data.bio,
@@ -41,7 +42,7 @@ export const createuser = async (req, res) => {
 export const saveuser_dietaty = async (req, res) => {
   const user = req.params;
   const data = req.body;
-  
+
   try {
     for (let i = 0; i < data.length; i++) {
       const [rows] = await pool.query(
