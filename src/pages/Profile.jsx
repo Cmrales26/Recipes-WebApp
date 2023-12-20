@@ -28,13 +28,13 @@ const Profile = () => {
         </Link>
       </div>
       <div className="userinfo">
-        <div className="profileimage">
+        {/* <div className="profileimage">
           <img
             src="https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg"
             alt="Profile Image"
           />
-        </div>
-        <div className="usFernameinfo">
+        </div> */}
+        <div className="usernameinfoprofila">
           <h2>{user.name + " " + user.lastname}</h2>
           <p>{user.bio}</p>
         </div>
@@ -43,7 +43,7 @@ const Profile = () => {
       <div className="contact">
         <p>
           <FontAwesomeIcon icon={faPhone} style={{ marginRight: "9px" }} />{" "}
-          {/*{user.phone}*/} 3014379827
+          {user.phone}
         </p>
         <p>
           <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: "9px" }} />{" "}

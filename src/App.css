@@ -10,10 +10,9 @@ body {
   background: #3c9eef;
   margin: 50px auto;
   width: 425px;
-  /* border: 1px solid red; */
+  height: 500px;
 }
 .LoginFormConainer {
-  border-radius: 10px;
   background-color: #eef0ef;
   padding: 2rem;
   & h3 {
@@ -65,7 +64,6 @@ body {
 .homepagerecipes,
 .Profile {
   background-color: #eef0ef;
-  border-radius: 10px;
 }
 .Titleuser_category {
   text-align: center;
@@ -146,6 +144,10 @@ header {
 .usernameinfo {
   margin-left: 1rem;
 }
+.usernameinfoprofila {
+  margin-left: 1rem;
+  margin-top: 2rem;
+}
 .fa-chevron-down {
   margin-top: 0.7rem;
   margin-left: 1rem;
@@ -184,6 +186,7 @@ header {
 }
 .contact {
   color: gray;
+  margin-left: 1rem;
 }
 .Navigationdow {
   margin-top: 1rem;
@@ -198,13 +201,25 @@ header {
 .fa-layer-group,
 .fa-star,
 .fa-gear,
-.fa-power-off {
+.fa-power-off,
+.UserIcon,
+.fa-lock,
+.fa-heart-crack {
   margin-right: 1rem;
 }
-.contact{
-  p{
+.contact {
+  p {
     margin-top: 1rem;
   }
+}
+.UserIcon {
+  color: #193f5f;
+  font-size: 20px;
+}
+.ProfilePicture {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .UserInfoCag {

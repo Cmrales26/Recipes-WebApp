@@ -1,35 +1,34 @@
+import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { UseUser } from "../context/user.context";
-import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
-const CreateUserForm = (props) => {
-  const { error, creatUser } = UseUser();
+const EditUserForm = () => {
+  const { user, error } = UseUser();
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors },
-    reset,
-    watch,
+    setValue,
+    // reset,
   } = useForm();
 
-  const onSubmit = handleSubmit(async (values) => {
-    const res = await creatUser(values);
-    if (res != "error") {
-      props.setIsSelecting(true);
+  const params = useParams();
+  useEffect(() => {
+    async function loadUser() {
+      if (params.username) {
+        console.log(user);
+        setValue("name", user.name);
+        setValue("lastname", user.lastname);
+        setValue("username", user.username);
+        setValue("email", user.email);
+        setValue("bio", user.bio);
+        setValue("phone", user.phone);
+      }
     }
-  });
-
-  const resetform = () => {
-    reset();
-    props.setIsCreating(!props.isCreating);
-  };
-
-  const password = watch("password");
-
+    loadUser();
+  }, []);
   return (
     <Box
       component="form"
@@ -39,11 +38,34 @@ const CreateUserForm = (props) => {
       noValidate
       autoComplete="off"
       className="LoginFormConainer"
-      onSubmit={onSubmit}
     >
-      <h3>Forma parte de nuestra comunidad</h3>
-      <p>Crear cuenta</p>
       {error ? <div className="servereror"> {error}</div> : null}
+
+      <div className="">
+        <TextField
+          disabled
+          label="Usuario"
+          type="text"
+          {...register("username", {
+            required: {
+              value: true,
+              message: "El Usuario es Requerido",
+            },
+            maxLength: {
+              value: 50,
+              message: "El Usuario no debe superar los 50 caracteres",
+            },
+            pattern: {
+              value: /^\S+$/,
+              message: "El nombre de usuario no puede contener espacios",
+            },
+          })}
+        />
+        {errors.username && (
+          <div className="error">{errors.username.message}</div>
+        )}
+      </div>
+
       <div className="">
         <TextField
           required
@@ -88,31 +110,6 @@ const CreateUserForm = (props) => {
           <div className="error">{errors.lastname.message}</div>
         )}
       </div>
-      {/* Username */}
-      <div className="">
-        <TextField
-          required
-          label="Usuario"
-          type="text"
-          {...register("username", {
-            required: {
-              value: true,
-              message: "El Usuario es Requerido",
-            },
-            maxLength: {
-              value: 50,
-              message: "El Usuario no debe superar los 50 caracteres",
-            },
-            pattern: {
-              value: /^\S+$/,
-              message: "El nombre de usuario no puede contener espacios",
-            },
-          })}
-        />
-        {errors.username && (
-          <div className="error">{errors.username.message}</div>
-        )}
-      </div>
 
       <div className="">
         <TextField
@@ -139,56 +136,29 @@ const CreateUserForm = (props) => {
 
       <div className="">
         <TextField
-          required
-          label="Contraseña"
-          type="password"
-          {...register("password", {
-            required: {
-              value: true,
-              message: "El Password es Requerido",
+          label="Phone"
+          type="number"
+          {...register("phone", {
+            maxLength: {
+              value: 20,
+              message: "El Email no debe superar los 20 caracteres",
             },
-            minLength: {
-              value: 6,
-              message: "El Password debe tener al menos 6 caracteres",
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "El numero de Telefono no puede contener letras",
             },
           })}
         />
-        {errors.password && (
-          <div className="error">{errors.password.message}</div>
-        )}
+        {errors.email && <div className="error">{errors.email.message}</div>}
       </div>
 
       <div className="">
-        <TextField
-          required
-          label="Validar Contraseña"
-          type="password"
-          {...register("password2", {
-            required: {
-              value: true,
-              message: "El Password es Requerido",
-            },
-            minLength: {
-              value: 6,
-              message: "El Password debe tener al menos 6 caracteres",
-            },
-            validate: (value) => {
-              if (value != password) {
-                return "Your passwords do no match";
-              }
-            },
-          })}
-        />
-        {errors.password2 && (
-          <div className="error">{errors.password2.message}</div>
-        )}
-      </div>
-      <div className="">
         {/* Biografia */}
         <TextField
-          className="Desciptionform"
           label="Biografia"
-          type="text"
+          multiline
+          minRows={4}
+          maxRows={7}
           {...register("bio", {
             required: {
               value: false,
@@ -205,29 +175,11 @@ const CreateUserForm = (props) => {
 
       <Stack spacing={1} direction="row" className="btncontainer">
         <Button className="btnlogin" type="submit" variant="contained">
-          Crear Cuenta
-        </Button>
-      </Stack>
-      <Stack spacing={1} direction="column" className="btncontainer">
-        <p>¿Ya tienes una cuenta?</p>
-        <Button
-          className="btnlogin"
-          type="button"
-          variant="outlined"
-          onClick={() => resetform()}
-        >
-          Inicia Sesión
+          Editar Perfil
         </Button>
       </Stack>
     </Box>
   );
 };
 
-CreateUserForm.propTypes = {
-  setIsCreating: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  isSelecting: PropTypes.bool.isRequired,
-  setIsSelecting: PropTypes.func.isRequired,
-};
-
-export default CreateUserForm;
+export default EditUserForm;
