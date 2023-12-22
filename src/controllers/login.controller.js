@@ -3,6 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserExists, checkpass } from "../libs/LoginValidation.js";
 import { createAccesToken } from "../middleware/CreateToken.js";
+import nodemailer from "nodemailer";
+import { sendPincode } from "../libs/Sendemail.js";
+import { transporter } from "../config/mailer.js";
 
 const secret = process.env.TOKENKEY;
 
@@ -17,13 +20,13 @@ export const createuser = async (req, res) => {
 
   try {
     const [newUser] = await pool.query(
-      "INSERT INTO users (name, lastname, username, email,phone, password, bio,rol,status) VALUES (?,?,?,?,?,?,?,?)",
+      "INSERT INTO users (name, lastname, username, email, phone, password, bio, rol, status) VALUES (?,?,?,?,?,?,?,?,?)",
       [
         data.name,
         data.lastname,
         data.username,
         data.email,
-        data.email,
+        data.phone,
         PasswordHash,
         data.bio,
         "user",
@@ -101,6 +104,71 @@ export const logout = (req, res) => {
   return res.sendStatus(200).end();
 };
 
+export const updateuser = async (req, res) => {
+  const user = req.params;
+  const data = req.body;
+  try {
+    const passcheck = await checkpass(user.username, data.password);
+
+    if (!passcheck) {
+      return res.status(404).json({ message: "Invalid password" });
+    }
+
+    const [rows] = await pool.query(
+      "UPDATE users SET name = ?, lastname = ?, bio = ?, email = ?, phone = ? WHERE username = ?",
+      [
+        data.name,
+        data.lastname,
+        data.bio,
+        data.email,
+        data.phone,
+        user.username,
+      ]
+    );
+
+    const newdata = {
+      username: user.username,
+      name: data.name,
+      lastname: data.lastname,
+      bio: data.bio,
+      email: data.email,
+      phone: data.phone,
+    };
+
+    const token = await createAccesToken(newdata);
+
+    res.cookie("token", token, {
+      sameSite: "none",
+      secure: true,
+    });
+
+    res.json({ message: "user updated successfully" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const changepassword = async (req, res) => {
+  const user = req.params;
+  const data = req.body;
+  try {
+    const passcheck = await checkpass(user.username, data.password);
+
+    if (!passcheck) {
+      return res.status(404).json({ message: "Invalid password" });
+    }
+
+    const PasswordHash = await bcrypt.hash(data.newpassword, 10);
+    const [rows] = await pool.query(
+      "UPDATE users SET password = ? WHERE username = ?",
+      [PasswordHash, user.username]
+    );
+    res.json({ message: "password updated successfully" });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
 // Enable and Disable access validation real user
 
 export const disableAccess = async (req, res) => {
@@ -129,44 +197,33 @@ export const enableAccess = async (req, res) => {
   }
 };
 
-export const updateuser = async (req, res) => {
-  const user = req.params;
-  const data = req.body;
-  try {
-    const passcheck = await checkpass(user.username, data.password);
+export const sendPinvalidation = async (req, res) => {
+  const { email } = req.params;
+  const Pin = Math.floor(Math.random() * 9000) + 1000;
 
-    if (!passcheck) {
-      return res.status(404).json({ message: "Invalid password" });
+  let mailOptions = sendPincode(email, Pin);
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Correo enviado: " + info.response);
     }
-    const [rows] = await pool.query(
-      "UPDATE users SET name = ?, lastname = ?, bio = ?, email = ? WHERE username =?",
-      [data.name, data.lastname, data.bio, data.email, user.username]
+  });
+
+  console.log(mailOptions);
+
+  try {
+    const saveindb = await pool.query(
+      "UPDATE users SET pin = ? WHERE email = ?",
+      [Pin, email.email]
     );
-    res.json({ message: "user updated successfully" });
+    console.log("Codigo almacenado");
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
 
-export const changepassword = async (req, res) => {
-  const user = req.params;
-  const data = req.body;
-  try {
-    const passcheck = await checkpass(user.username, data.password);
-
-    if (!passcheck) {
-      return res.status(404).json({ message: "Invalid password" });
-    }
-
-    const PasswordHash = await bcrypt.hash(data.newpassword, 10);
-    const [rows] = await pool.query(
-      "UPDATE users SET password = ? WHERE username = ?",
-      [PasswordHash, user.username]
-    );
-    res.json({ message: "password updated successfully" });
-  } catch (err) {
-    res.status(404).json({ message: err.message });
-  }
+  res.status(200).json("El codigo ha sido envido");
 };
 
 export const validationtoken = (req, res) => {
@@ -180,6 +237,18 @@ export const validationtoken = (req, res) => {
     }
     return res.status(200).json(data);
   });
+};
+
+export const validatePassword = async (req, res) => {
+  const { password } = req.body;
+  const { username } = req.params;
+
+  const ispass = await checkpass(username, password);
+
+  if (!ispass) {
+    return res.status(404).json({ message: "Contraseña Incorrecta" });
+  }
+  return res.status(200).json(true);
 };
 
 export const getDietary = async (req, res) => {

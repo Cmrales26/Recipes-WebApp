@@ -9,7 +9,9 @@ import {
   logout,
   removeDietaryCategory,
   saveuser_dietaty,
+  sendPinvalidation,
   updateuser,
+  validatePassword,
   validationtoken,
 } from "../controllers/login.controller.js";
 import { validationSchema } from "../middleware/ValidationSchema.js";
@@ -32,6 +34,9 @@ router
   .route("/changepass/:username")
   .patch(validationSchema(changepasswordschema), changepassword);
 router.route("/tokenCheck").get(validationtoken);
+router.route("/SendVerificationPin/:email").post(sendPinvalidation)
+
+router.route("/validatepass/:username").post(validatePassword)
 
 // Dietario
 router.route("/dietary/:username").post(saveuser_dietaty);
