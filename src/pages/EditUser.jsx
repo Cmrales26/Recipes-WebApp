@@ -12,7 +12,7 @@ const EditUser = () => {
           {" "}
           <div className="profilenavigation">
             <Link to="#" onClick={() => history(-1)}>
-              <FontAwesomeIcon className="SearchIcon" icon={faArrowLeft} />
+              <FontAwesomeIcon icon={faArrowLeft} />
             </Link>
             <h3>Editar Perfil</h3>
           </div>

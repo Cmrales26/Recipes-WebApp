@@ -53,15 +53,33 @@ const Profile = () => {
       <div className="Navigationdow">
         <Link to="/#" className="UserInfoCag">
           <FontAwesomeIcon icon={faHeart} /> {" Mis Favoritos"}
+          <p>
+            Mira tus recetas más amadas en un lugar especial para acceder a
+            ellas fácilmente y disfrutarlas en cualquier momento.
+          </p>
         </Link>
         <Link to="/#" className="UserInfoCag">
           <FontAwesomeIcon icon={faLayerGroup} /> {" Mis Categorias"}
+          <p>
+            Explora un mundo de posibilidades culinarias organizadas por tipo de
+            plato, ingredientes o preferencias dietéticas. Encuentra nuevas
+            recetas y redescubre clásicos
+          </p>
         </Link>
         <Link to="/#" className="UserInfoCag">
           <FontAwesomeIcon icon={faStar} /> {" Mis Calificaciones"}
+          <p>
+            Revisa tus impresiones y experiencias culinarias. Califica las
+            recetas que has probado y descubre las mejor valoradas por la
+            comunidad
+          </p>
         </Link>
         <Link to="/#" className="UserInfoCag">
           <FontAwesomeIcon icon={faGear} /> {" Configuración"}
+          <p>
+            Personaliza tu perfil y ajusta la página según tus preferencias.
+            Gestiona tu cuenta para una experiencia más adaptada a ti.
+          </p>
         </Link>
       </div>
       <hr />

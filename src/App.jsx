@@ -9,6 +9,8 @@ import Protectedroute from "./Protectedroute";
 import Profile from "./pages/Profile";
 import ProfileConfig from "./pages/ProfileConfig";
 import EditUser from "./pages/EditUser";
+import UpdatePass from "./pages/UpdatePass";
+import CodeValidation from "./components/CodeValidation";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +29,18 @@ function App() {
               <Route
                 path="/Profile/:username/editAccount"
                 element={<EditUser />}
+              ></Route>
+              <Route
+                path="/Profile/:username/ChangePassword"
+                element={<UpdatePass />}
+              ></Route>
+              <Route
+                path="/Profile/:username/ChangePassword/VerifacationCode"
+                element={<CodeValidation />}
+              ></Route>
+              <Route
+                path="/Profile/:username/ChangePassword"
+                element={<UpdatePass />}
               ></Route>
             </Route>
           </Routes>

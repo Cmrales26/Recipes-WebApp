@@ -1,24 +1,38 @@
-import { Box, Button, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Alert,
+  Snackbar,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { UseUser } from "../context/user.context";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const EditUserForm = () => {
-  const { user, error } = UseUser();
+  const { user, error, updateUser, setError } = UseUser();
+  const [password, setPassword] = useState("");
   const {
     register,
-    // handleSubmit,
+    handleSubmit,
     formState: { errors },
     setValue,
-    // reset,
+    getValues,
   } = useForm();
+
+  const Navigate = useNavigate();
 
   const params = useParams();
   useEffect(() => {
     async function loadUser() {
       if (params.username) {
-        console.log(user);
         setValue("name", user.name);
         setValue("lastname", user.lastname);
         setValue("username", user.username);
@@ -29,6 +43,41 @@ const EditUserForm = () => {
     }
     loadUser();
   }, []);
+
+  const [modalpassOpen, setModalPassOpen] = useState(false);
+  const [SnackpassOpen, setSnackPassOpen] = useState(false);
+
+  const onSubmit = handleSubmit(() => {
+    setModalPassOpen(true);
+  });
+  const onCancel = () => {
+    setModalPassOpen(false);
+  };
+
+  const changeUserData = async () => {
+    const data = {
+      name: getValues("name"),
+      lastname: getValues("lastname"),
+      username: getValues("username"),
+      email: getValues("email"),
+      bio: getValues("bio"),
+      phone: getValues("phone"),
+      password: password,
+    };
+
+    if (password.trim() !== "") {
+      const res = await updateUser(user.username, data);
+      if (res.status === 200) {
+        setSnackPassOpen(true);
+        setTimeout(() => {
+          Navigate("/home", { replace: true });
+          window.location.reload();
+        }, 1000);
+      }
+    } else {
+      setError("Por favor ingrese su contraseña");
+    }
+  };
   return (
     <Box
       component="form"
@@ -38,9 +87,16 @@ const EditUserForm = () => {
       noValidate
       autoComplete="off"
       className="LoginFormConainer"
+      onSubmit={onSubmit}
     >
-      {error ? <div className="servereror"> {error}</div> : null}
-
+      <Snackbar
+        open={SnackpassOpen}
+        autoHideDuration={600}
+        message="Usuario actualiado con exito"
+        onClose={onCancel}
+      >
+        <Alert severity="success">Usuario actualizado</Alert>
+      </Snackbar>
       <div className="">
         <TextField
           disabled
@@ -65,7 +121,6 @@ const EditUserForm = () => {
           <div className="error">{errors.username.message}</div>
         )}
       </div>
-
       <div className="">
         <TextField
           required
@@ -110,7 +165,6 @@ const EditUserForm = () => {
           <div className="error">{errors.lastname.message}</div>
         )}
       </div>
-
       <div className="">
         <TextField
           required
@@ -133,7 +187,6 @@ const EditUserForm = () => {
         />
         {errors.email && <div className="error">{errors.email.message}</div>}
       </div>
-
       <div className="">
         <TextField
           label="Phone"
@@ -149,16 +202,13 @@ const EditUserForm = () => {
             },
           })}
         />
-        {errors.email && <div className="error">{errors.email.message}</div>}
+        {errors.phone && <div className="error">{errors.phone.message}</div>}
       </div>
-
       <div className="">
-        {/* Biografia */}
         <TextField
           label="Biografia"
-          multiline
-          minRows={4}
-          maxRows={7}
+          multiline={true}
+          rows={4}
           {...register("bio", {
             required: {
               value: false,
@@ -172,12 +222,39 @@ const EditUserForm = () => {
         />
         {errors.bio && <div className="error">{errors.bio.message}</div>}
       </div>
-
       <Stack spacing={1} direction="row" className="btncontainer">
         <Button className="btnlogin" type="submit" variant="contained">
           Editar Perfil
         </Button>
       </Stack>
+      <Dialog open={modalpassOpen} onClose={onCancel}>
+        {error ? <div className="servereror"> {error}</div> : null}
+        <DialogTitle>Ingrese su contraseña</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Por tu seguridad, por favor valida tu contraseña para realizar
+            cambios en tu cuenta.
+          </DialogContentText>
+          <TextField
+            required
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Constraseña"
+            type="password"
+            fullWidth
+            variant="standard"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => changeUserData()}>Aceptar</Button>
+          <Button onClick={onCancel}>Cancelar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

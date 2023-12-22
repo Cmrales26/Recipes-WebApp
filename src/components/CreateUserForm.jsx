@@ -183,12 +183,34 @@ const CreateUserForm = (props) => {
           <div className="error">{errors.password2.message}</div>
         )}
       </div>
+
+      <div className="">
+        <TextField
+          label="Phone"
+          type="number"
+          {...register("phone", {
+            maxLength: {
+              value: 20,
+              message: "El Email no debe superar los 20 caracteres",
+            },
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "El numero de Telefono no puede contener letras",
+            },
+          })}
+        />
+        {errors.phone && <div className="error">{errors.phone.message}</div>}
+      </div>
+
       <div className="">
         {/* Biografia */}
         <TextField
           className="Desciptionform"
           label="Biografia"
           type="text"
+          multiline
+          minRows={4}
+          maxRows={7}
           {...register("bio", {
             required: {
               value: false,

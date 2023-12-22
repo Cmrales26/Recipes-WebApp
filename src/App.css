@@ -205,7 +205,7 @@ header {
 .UserIcon,
 .fa-lock,
 .fa-heart-crack {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 .contact {
   p {
@@ -228,6 +228,11 @@ header {
   padding: 1rem 1rem;
   border-radius: 10px;
   cursor: pointer;
+  font-weight: 700;
+  p {
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 .UserInfoCag:hover,
 .logout:hover {

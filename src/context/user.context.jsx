@@ -6,6 +6,8 @@ import {
   SaveDietaryRequestHandler,
   CheckLogin,
   LogoutRequestHandler,
+  UpdateuserRequestHandler,
+  validatepassHandler,
 } from "../api/auth";
 
 import Cookies from "universal-cookie";
@@ -88,6 +90,26 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const updateUser = async (username, data) => {
+    try {
+      const res = await UpdateuserRequestHandler(username, data);
+      return res;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const validatepass = async (username, password) => {
+    try {
+      const res = await validatepassHandler(username, password);
+      return res.status;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
   useEffect(() => {
     async function logincheck() {
       let token = cookies.get("token");
@@ -116,10 +138,13 @@ export const UserProvider = ({ children }) => {
         error,
         user,
         loading,
+        setError,
         creatUser,
         loginUser,
         saveusercategory,
         logout,
+        updateUser,
+        validatepass,
       }}
     >
       {children}

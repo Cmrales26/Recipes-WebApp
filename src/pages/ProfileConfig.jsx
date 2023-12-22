@@ -24,15 +24,30 @@ const ProfileConfig = () => {
           className="UserInfoCag"
         >
           <FontAwesomeIcon className="UserIcon" icon={faUser} />
-          Información de la cuenta
+          Editar Perfil
+          <p>
+            Actualiza y personaliza tu información para reflejar tu estilo
+            culinario y preferencias.
+          </p>
         </Link>
-        <Link to={"/Editacount"} className="UserInfoCag">
+        <Link
+          to={`/Profile/${user.username}/ChangePassword`}
+          className="UserInfoCag"
+        >
           <FontAwesomeIcon icon={faLock} />
           Cambiar Contraseña
+          <p>
+            Mantén tu cuenta segura. Cambia tu contraseña fácilmente cuando lo
+            necesites.
+          </p>
         </Link>
         <Link to={"/Editacount"} className="UserInfoCag">
           <FontAwesomeIcon icon={faHeartBroken} />
           Desactivar la cuenta
+          <p>
+            Siempre tienes el control. Desactiva tu cuenta si lo deseas, aunque
+            ¡esperamos que te quedes y sigas disfrutando de nuestras recetas!
+          </p>
         </Link>
       </div>
     </div>

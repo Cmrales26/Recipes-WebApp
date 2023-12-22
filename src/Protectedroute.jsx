@@ -9,8 +9,6 @@ const Protectedroute = () => {
   if (!isAuth && !loading) {
     return <Navigate to="/login" replace />;
   }
-  console.log(isAuth, loading);
-
   return <Outlet />;
 };
 
