@@ -248,3 +248,7 @@ header {
     text-decoration: none;
   }
 }
+.CodeValidation{
+  background-color: #eef0ef;
+  padding: 2rem;
+}

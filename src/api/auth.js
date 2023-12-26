@@ -6,7 +6,13 @@ export const LogoutRequestHandler = () => axios.post("/logout");
 export const UpdateuserRequestHandler = (username, data) =>
   axios.patch(`/update/${username}`, data);
 
-export const validatepassHandler = (username, password) => axios.post(`/validatepass/${username}`, password);
+export const validatepassHandler = (username, password) =>
+  axios.post(`/validatepass/${username}`, password);
+
+export const sendEmailVerification = (username) =>
+  axios.post(`SendVerificationPin/${username}`);
+export const ChangePasswordHandler = (username, data) =>
+  axios.patch(`changepass/${username}`, data);
 
 // CheckLogin
 export const CheckLogin = () => axios.get("/tokenCheck");

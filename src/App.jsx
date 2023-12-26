@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import ProfileConfig from "./pages/ProfileConfig";
 import EditUser from "./pages/EditUser";
 import UpdatePass from "./pages/UpdatePass";
-import CodeValidation from "./components/CodeValidation";
+import CodeValidation from "./pages/CodeValidation";
 function App() {
   return (
     <BrowserRouter>

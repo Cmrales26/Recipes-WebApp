@@ -8,6 +8,8 @@ import {
   LogoutRequestHandler,
   UpdateuserRequestHandler,
   validatepassHandler,
+  sendEmailVerification,
+  ChangePasswordHandler,
 } from "../api/auth";
 
 import Cookies from "universal-cookie";
@@ -30,6 +32,28 @@ export const UserProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function logincheck() {
+      let token = cookies.get("token");
+      if (!token) {
+        setIsAuth(false);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await CheckLogin();
+        setIsAuth(true);
+        setUser(res.data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+    logincheck();
+    console.log("i fire once");
+  }, []);
 
   useEffect(() => {
     if (error.length > 0) {
@@ -110,26 +134,25 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    async function logincheck() {
-      let token = cookies.get("token");
-      if (!token) {
-        setIsAuth(false);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const res = await CheckLogin();
-        setIsAuth(true);
-        setUser(res.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
+  const sendEmail = async (username) => {
+    try {
+      const res = await sendEmailVerification(username);
+      return res;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
     }
-    logincheck();
-  }, [isAuth, loading]);
+  };
+
+  const changePassword = async (username, data) => {
+    try {
+      const res = await ChangePasswordHandler(username, data);
+      return res;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
 
   return (
     <Usercontext.Provider
@@ -145,6 +168,8 @@ export const UserProvider = ({ children }) => {
         logout,
         updateUser,
         validatepass,
+        sendEmail,
+        changePassword,
       }}
     >
       {children}
