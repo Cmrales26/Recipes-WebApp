@@ -34,7 +34,7 @@ router
   .route("/changepass/:username")
   .patch(validationSchema(changepasswordschema), changepassword);
 router.route("/tokenCheck").get(validationtoken);
-router.route("/SendVerificationPin/:email").post(sendPinvalidation)
+router.route("/SendVerificationPin/:username").post(sendPinvalidation)
 
 router.route("/validatepass/:username").post(validatePassword)
 

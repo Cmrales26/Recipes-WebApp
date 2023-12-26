@@ -3,8 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserExists, checkpass } from "../libs/LoginValidation.js";
 import { createAccesToken } from "../middleware/CreateToken.js";
-import nodemailer from "nodemailer";
-import { sendPincode } from "../libs/Sendemail.js";
+import { codeExists, sendPincode, verifycode } from "../libs/Sendemail.js";
 import { transporter } from "../config/mailer.js";
 
 const secret = process.env.TOKENKEY;
@@ -149,21 +148,24 @@ export const updateuser = async (req, res) => {
 };
 
 export const changepassword = async (req, res) => {
-  const user = req.params;
-  const data = req.body;
+  const { username } = req.params;
+  const { newpassword, codeverify } = req.body;
+
+  const codeValidation = await verifycode(username, codeverify);
+
+  console.log(codeValidation);
+
+  if (codeValidation !== true) {
+    return res.status(404).json({ message: codeValidation });
+  }
+
   try {
-    const passcheck = await checkpass(user.username, data.password);
-
-    if (!passcheck) {
-      return res.status(404).json({ message: "Invalid password" });
-    }
-
-    const PasswordHash = await bcrypt.hash(data.newpassword, 10);
+    const PasswordHash = await bcrypt.hash(newpassword, 10);
     const [rows] = await pool.query(
       "UPDATE users SET password = ? WHERE username = ?",
-      [PasswordHash, user.username]
+      [PasswordHash, username]
     );
-    res.json({ message: "password updated successfully" });
+    res.json({ message: "Contraseña Actualizada con exito" });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -198,32 +200,36 @@ export const enableAccess = async (req, res) => {
 };
 
 export const sendPinvalidation = async (req, res) => {
-  const { email } = req.params;
-  const Pin = Math.floor(Math.random() * 9000) + 1000;
+  const { username } = req.params;
+  const Pin = Math.floor(Math.random() * 900000) + 100000;
 
-  let mailOptions = sendPincode(email, Pin);
+  const rescode = await codeExists(username);
 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Correo enviado: " + info.response);
+  if (!rescode[0].pin) {
+    const email = rescode[0].email;
+    let mailOptions = sendPincode(email, Pin);
+    transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Correo enviado: " + info.response);
+      }
+    });
+
+    try {
+      const saveindb = await pool.query(
+        "UPDATE users SET pin = ? WHERE email = ?",
+        [Pin, email]
+      );
+      console.log("Codigo almacenado");
+    } catch (error) {
+      res.status(404).json({ message: error.message });
     }
-  });
 
-  console.log(mailOptions);
-
-  try {
-    const saveindb = await pool.query(
-      "UPDATE users SET pin = ? WHERE email = ?",
-      [Pin, email.email]
-    );
-    console.log("Codigo almacenado");
-  } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(200).json("El codigo ha sido envido");
+  } else {
+    res.status(202).json("El codigo ya ha sido enviado anteriormente");
   }
-
-  res.status(200).json("El codigo ha sido envido");
 };
 
 export const validationtoken = (req, res) => {

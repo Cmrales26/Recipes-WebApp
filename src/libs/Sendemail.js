@@ -1,3 +1,5 @@
+import { pool } from "../db/db.js";
+
 export const sendPincode = (email, pin) => {
   const pincode = {
     from: "recipeswebapp@gmail.com",
@@ -10,4 +12,38 @@ export const sendPincode = (email, pin) => {
     `,
   };
   return pincode;
+};
+
+export const codeExists = async (username) => {
+  try {
+    const [res] = await pool.query(
+      "SELECT pin, email FROM users WHERE username = ? ",
+      [username]
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const verifycode = async (username, pin) => {
+  try {
+    const [res] = await pool.query(
+      "SELECT pin FROM users WHERE username = ? AND pin = ?",
+      [username, pin]
+    );
+    if (res.length === 0) {
+      return "El codigo Ingresado no coincide";
+    }
+
+    const deletecode = await pool.query(
+      "UPDATE users SET pin = NULL WHERE username = ?",
+      [username]
+    );
+    return true;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
