@@ -6,7 +6,7 @@ import EditUserForm from "../components/EditUserForm";
 const EditUser = () => {
   const history = useNavigate();
   return (
-    <>
+    <section className="ContainerEditProfile">
       <div className="Profile">
         <div>
           {" "}
@@ -17,9 +17,9 @@ const EditUser = () => {
             <h3>Editar Perfil</h3>
           </div>
         </div>
+        <EditUserForm />
       </div>
-      <EditUserForm />
-    </>
+    </section>
   );
 };
 

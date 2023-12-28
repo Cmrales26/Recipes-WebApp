@@ -6,15 +6,17 @@ import UpdatePassForm from "../components/UpdatePassForm";
 const UpdatePass = () => {
   const history = useNavigate();
   return (
-    <div className="Profile">
-      <div className="profilenavigation">
-        <Link to="#" onClick={() => history(-1)}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </Link>
-        <h3>Cambiar Contraseña</h3>
+    <section className="ContainerUpdatePass">
+      <div className="Profile">
+        <div className="profilenavigation">
+          <Link to="#" onClick={() => history(-1)}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </Link>
+          <h3>Cambiar Contraseña</h3>
+        </div>
+        <UpdatePassForm></UpdatePassForm>
       </div>
-      <UpdatePassForm></UpdatePassForm>
-    </div>
+    </section>
   );
 };
 

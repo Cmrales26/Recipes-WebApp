@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { UseUser } from "../context/user.context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,13 +44,16 @@ const Navbar = () => {
     <>
       <AppBar position="static" className="navbar">
         <Toolbar>
-          {/* <Link to="#">
-          <p>Recetas NM</p>
-        </Link> */}
+          <Link to="#">
+            <figure>
+              <img src="images/Imagotipo.svg" alt="Logotipo de la pagina RC" />
+            </figure>
+          </Link>
           <Stack direction={"row"} spacing={5}>
             <TextField
-              size="small"
-              label="Buscar"
+              size="medium"
+              label="Buscar Receta"
+              focused
               variant="standard"
               InputProps={{
                 endAdornment: (
@@ -60,8 +63,11 @@ const Navbar = () => {
                 ),
               }}
             />
+          </Stack>
+          <Stack>
             <Tooltip title="Configuración Cuenta">
               <IconButton
+                className="UserHomeIcon"
                 onClick={handleClick}
                 size="small"
                 sx={{ ml: 2 }}
@@ -76,6 +82,7 @@ const Navbar = () => {
             <Menu
               anchorEl={anchorEl}
               id="account-menu"
+              className="account-menu-class"
               open={Boolean(anchorEl)}
               onClose={handleClose}
               onClick={handleClose}
@@ -90,26 +97,23 @@ const Navbar = () => {
                 <div className="usernameinfo">
                   {user.name + " " + user.lastname}
                 </div>
-                <hr />
               </MenuItem>
 
               <MenuItem
                 onClick={() =>
                   Navigate(`/Profile/${user.username}/configuration`)
                 }
+                className="SeeConfig"
               >
                 {" "}
-                <FontAwesomeIcon
-                  icon={faGear}
-                  className="seeUserInfo seeUserInfo-small"
-                />
+                <FontAwesomeIcon icon={faGear} className="faGear" />
                 <div className="usernameinfo">Configuración</div>{" "}
               </MenuItem>
-              <MenuItem onClick={handleLogout}>
+              <MenuItem onClick={handleLogout} className="SeeLogout">
                 {" "}
                 <FontAwesomeIcon
                   icon={faArrowRightFromBracket}
-                  className="seeUserInfo seeUserInfo-small "
+                  className="faArrowRightFromBracket"
                 />
                 <div className="usernameinfo">Cerrar Sesión</div>
               </MenuItem>

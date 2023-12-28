@@ -16,7 +16,7 @@ const Login = () => {
   }
 
   return (
-    <>
+    <div className={isSelecting ? "selectingCategories" : "InitForm"}>
       {isAuth ? (
         user.rol === "user" ? (
           <Navigate to="/home" />
@@ -31,17 +31,30 @@ const Login = () => {
         isSelecting ? (
           <UserSelectCategories />
         ) : (
-          <CreateUserForm
-            setIsCreating={setIscreating}
-            isCreating={isCreating}
-            isSelecting={isSelecting}
-            setIsSelecting={setIsselecting}
-          />
+          <div className="LoginForm">
+            <figure>
+              <img src="images/Imagotipo.svg" alt="Logotipo de la pagina RC" />
+            </figure>
+            <CreateUserForm
+              setIsCreating={setIscreating}
+              isCreating={isCreating}
+              isSelecting={isSelecting}
+              setIsSelecting={setIsselecting}
+            />
+          </div>
         )
       ) : (
-        <LoginUserForm setIsCreating={setIscreating} isCreating={isCreating} />
+        <div className="LoginForm">
+          <figure>
+            <img src="images/Imagotipo.svg" alt="Logotipo de la pagina RC" />
+          </figure>
+          <LoginUserForm
+            setIsCreating={setIscreating}
+            isCreating={isCreating}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

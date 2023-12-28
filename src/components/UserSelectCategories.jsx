@@ -79,15 +79,17 @@ const UserSelectCategories = () => {
         {selected.length === 0 ? (
           <p>No hay categorías seleccionadas</p>
         ) : (
-          selected.map((category) => (
-            <div
-              className="categoria"
-              key={category.id_categoria}
-              onClick={() => handleSelect(category)}
-            >
-              {category.nombre_categoria}
-            </div>
-          ))
+          <div className="CategoriesContainer">
+            {selected.map((category) => (
+              <div
+                className="categoria"
+                key={category.id_categoria}
+                onClick={() => handleSelect(category)}
+              >
+                {category.nombre_categoria}
+              </div>
+            ))}
+          </div>
         )}
       </div>
       <div className="Category_Unselected">
@@ -95,15 +97,17 @@ const UserSelectCategories = () => {
         {nonselected.length === 0 ? (
           <p>No hay categorías disponibles</p>
         ) : (
-          nonselected.map((category) => (
-            <div
-              className="categoria"
-              key={category.id_categoria}
-              onClick={() => handleSelect(category)}
-            >
-              {category.nombre_categoria}
-            </div>
-          ))
+          <div className="CategoriesContainer">
+            {nonselected.map((category) => (
+              <div
+                className="categoria"
+                key={category.id_categoria}
+                onClick={() => handleSelect(category)}
+              >
+                {category.nombre_categoria}
+              </div>
+            ))}
+          </div>
         )}
       </div>
       <div>

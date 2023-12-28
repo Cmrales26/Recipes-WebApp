@@ -227,7 +227,11 @@ const EditUserForm = () => {
           Editar Perfil
         </Button>
       </Stack>
-      <Dialog open={modalpassOpen} onClose={onCancel}>
+      <Dialog
+        open={modalpassOpen}
+        onClose={onCancel}
+        className="DialogCheckPass"
+      >
         {error ? <div className="servereror"> {error}</div> : null}
         <DialogTitle>Ingrese su contraseña</DialogTitle>
         <DialogContent>
@@ -237,7 +241,7 @@ const EditUserForm = () => {
           </DialogContentText>
           <TextField
             required
-            autoFocus
+            focused
             margin="dense"
             id="name"
             label="Constraseña"

@@ -33,8 +33,8 @@ const CodeValidation = () => {
   const hideMail = (email) => {
     const [name, address] = email.split("@");
     const hidename = `${name.slice(0, 4)}*****`;
-    const hiddenaddress = `****.${address.split(".").pop()}`;
-    return `${hidename}@${hiddenaddress}`;
+    // const hiddenaddress = `****.${address.split(".").pop()}`;
+    return `${hidename}@${address}`;
   };
 
   const onSubmit = handleSubmit(async (value) => {
@@ -86,7 +86,6 @@ const CodeValidation = () => {
             open={SnackpassOpen}
             autoHideDuration={600}
             message="Usuario actualiado con exito"
-            // onClose={onCancel}
           >
             <Alert severity="success">Contraseña Actualizada Con exito</Alert>
           </Snackbar>
@@ -126,6 +125,10 @@ const CodeValidation = () => {
                     value: 6,
                     message: "El codigo debe tener al menos 6 digitos",
                   },
+                  maxLength: {
+                    value: 6,
+                    message: "El codigo debe tener Maximos 6 digitos",
+                  },
                 })}
               />
               {errors.code && (
@@ -154,6 +157,7 @@ const CodeValidation = () => {
                 required
                 label={"Email"}
                 type="email"
+                variant="outlined"
                 {...register("email", {
                   required: {
                     value: true,
@@ -165,12 +169,29 @@ const CodeValidation = () => {
                   },
                 })}
               />
+              <div className="Alreadyhavecode">
+                <a
+                  style={{ fontSize: "14px" }}
+                  onClick={() => setCorrectemail(true)}
+                >
+                  {" "}
+                  Ya tengo un Código
+                </a>
+              </div>
               {errors.email && (
                 <div className="error">{errors.email.message}</div>
               )}
-              <Stack spacing={1} direction="row" className="btncontainer">
+              <Stack spacing={2} direction="row" className="btncontainer">
                 <Button className="btnlogin" type="submit" variant="contained">
                   Enviar codigo de verificación
+                </Button>
+                <Button
+                  className="btnlogin"
+                  onClick={() => navigate("/home")}
+                  type="button"
+                  variant="outlined"
+                >
+                  cancelar
                 </Button>
               </Stack>
             </div>
