@@ -5,6 +5,8 @@ import { UserExists, checkpass } from "../libs/LoginValidation.js";
 import { createAccesToken } from "../middleware/CreateToken.js";
 import { codeExists, sendPincode, verifycode } from "../libs/Sendemail.js";
 import { transporter } from "../config/mailer.js";
+import path from "path";
+import { fs } from "file-system";
 
 const secret = process.env.TOKENKEY;
 
@@ -83,6 +85,17 @@ export const loginuser = async (req, res) => {
 
     delete rows[0].password;
 
+    const Pprouter = "public/PP";
+
+    const imgPath = path.join(Pprouter, `${rows[0].username}.webp`);
+
+    if (fs.existsSync(imgPath)) {
+      const profilePictureUrl = `http://localhost:5500/ProfileP/${rows[0].username}.webp`;
+      rows[0].profilePictureUrl = profilePictureUrl;
+    } else {
+      rows[0].profilePictureUrl = null;
+    }
+
     const token = await createAccesToken(rows[0]);
 
     res.cookie("token", token, {
@@ -106,6 +119,7 @@ export const logout = (req, res) => {
 export const updateuser = async (req, res) => {
   const user = req.params;
   const data = req.body;
+  console.log(data);
   try {
     const passcheck = await checkpass(user.username, data.password);
 
@@ -125,6 +139,16 @@ export const updateuser = async (req, res) => {
       ]
     );
 
+    const Pprouter = "public/PP";
+
+    let profilePictureUrl = "";
+
+    if (data.removing) {
+      profilePictureUrl = null;
+    } else {
+      profilePictureUrl = `http://localhost:5500/ProfileP/${user.username}.webp`;
+    }
+
     const newdata = {
       username: user.username,
       name: data.name,
@@ -132,6 +156,7 @@ export const updateuser = async (req, res) => {
       bio: data.bio,
       email: data.email,
       phone: data.phone,
+      profilePictureUrl: profilePictureUrl,
     };
 
     const token = await createAccesToken(newdata);
