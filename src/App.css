@@ -198,6 +198,8 @@ header {
 }
 .AvatarImage {
   width: 40px !important;
+  object-fit: cover;
+  max-height: 40px;
   border-radius: 100px;
 }
 
@@ -295,9 +297,11 @@ header {
     align-items: center;
     margin-bottom: 2rem;
     img {
-      object-fit: contain;
-      width: 200px;
+      object-fit: cover;
+      max-width: 200px;
+      min-width: 200px;
       min-height: 200px;
+      max-height: 200px;
       border-radius: 100px;
       border: 2px solid #3c9eef;
     }
@@ -417,9 +421,11 @@ header {
   justify-content: center;
   margin-bottom: 2rem;
   img {
-    object-fit: contain;
-    width: 250px;
+    object-fit: cover;
+    max-width: 250px;
+    min-width: 250px;
     min-height: 250px;
+    max-height: 250px;
     border-radius: 100%;
     border: 2px solid #3c9eef;
     margin-bottom: 1rem;
