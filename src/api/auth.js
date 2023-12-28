@@ -20,3 +20,10 @@ export const CheckLogin = () => axios.get("/tokenCheck");
 // Save Category
 export const SaveDietaryRequestHandler = (username, dietary) =>
   axios.post(`/dietary/${username}`, dietary);
+
+// ProfilePicture
+export const RemoveProfilePicturehandler = (username) =>
+  axios.post(`/removeProfilePhoto/${username}`);
+
+export const ProfilePictureHandler = (data) =>
+  axios.post(`/uploadProfilePhoto/`, data);

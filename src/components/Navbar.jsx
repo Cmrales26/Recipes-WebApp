@@ -75,7 +75,17 @@ const Navbar = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <FontAwesomeIcon icon={faUser} />
+                {user.profilePictureUrl ? (
+                  <img
+                    src={user.profilePictureUrl}
+                    alt="Profile"
+                    onError={(e) => console.log("Error loading image", e)}
+                    className="AvatarImage"
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} />
+                )}
+
                 <FontAwesomeIcon icon={faChevronDown} />
               </IconButton>
             </Tooltip>

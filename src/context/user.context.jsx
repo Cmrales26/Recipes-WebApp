@@ -10,6 +10,8 @@ import {
   validatepassHandler,
   sendEmailVerification,
   ChangePasswordHandler,
+  RemoveProfilePicturehandler,
+  ProfilePictureHandler,
 } from "../api/auth";
 
 import Cookies from "universal-cookie";
@@ -154,6 +156,26 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const uploadProfilePhoto = async (data) => {
+    try {
+      const res = await ProfilePictureHandler(data);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const removeProfilePhoto = async (username) => {
+    try {
+      const res = await RemoveProfilePicturehandler(username);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
   return (
     <Usercontext.Provider
       value={{
@@ -170,6 +192,8 @@ export const UserProvider = ({ children }) => {
         validatepass,
         sendEmail,
         changePassword,
+        removeProfilePhoto,
+        uploadProfilePhoto,
       }}
     >
       {children}

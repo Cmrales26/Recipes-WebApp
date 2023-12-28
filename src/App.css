@@ -196,6 +196,10 @@ header {
     background-color: #545454;
   }
 }
+.AvatarImage {
+  width: 40px !important;
+  border-radius: 100px;
+}
 
 /* PROFILE */
 .containerConfig {
@@ -283,6 +287,19 @@ header {
         color: red;
         text-decoration: none !important;
       }
+    }
+  }
+  .profileimage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    img {
+      object-fit: contain;
+      width: 200px;
+      min-height: 200px;
+      border-radius: 100px;
+      border: 2px solid #3c9eef;
     }
   }
 }
@@ -391,6 +408,22 @@ header {
   }
   input {
     color: #fafafa !important;
+  }
+}
+
+.PofilePictureSelect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  img {
+    object-fit: contain;
+    width: 250px;
+    min-height: 250px;
+    border-radius: 100%;
+    border: 2px solid #3c9eef;
+    margin-bottom: 1rem;
+    margin-left: 1.2rem;
   }
 }
 

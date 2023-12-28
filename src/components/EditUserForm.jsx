@@ -16,8 +16,15 @@ import { UseUser } from "../context/user.context";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const EditUserForm = () => {
-  const { user, error, updateUser, setError } = UseUser();
+const EditUserForm = (props) => {
+  const {
+    user,
+    error,
+    updateUser,
+    setError,
+    removeProfilePhoto,
+    uploadProfilePhoto,
+  } = UseUser();
   const [password, setPassword] = useState("");
   const {
     register,
@@ -63,11 +70,21 @@ const EditUserForm = () => {
       bio: getValues("bio"),
       phone: getValues("phone"),
       password: password,
+      removing: props.isRemoving,
+      editing: props.isEditing,
     };
 
     if (password.trim() !== "") {
       const res = await updateUser(user.username, data);
       if (res.status === 200) {
+        if (props.isRemoving) {
+          removeProfilePhoto(user.username);
+        }
+        if (props.isEditing) {
+          const formData = new FormData();
+          formData.append("file", props.ppicture, `${user.username}.jpg`);
+          uploadProfilePhoto(formData);
+        }
         setSnackPassOpen(true);
         setTimeout(() => {
           Navigate("/home", { replace: true });
