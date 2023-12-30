@@ -176,7 +176,7 @@ export const changepassword = async (req, res) => {
   const { username } = req.params;
   const { newpassword, codeverify } = req.body;
 
-  const codeValidation = await verifycode(username, codeverify);
+  const codeValidation = await verifycode(username, codeverify, "Change");
 
   console.log(codeValidation);
 
@@ -226,9 +226,16 @@ export const enableAccess = async (req, res) => {
 
 export const sendPinvalidation = async (req, res) => {
   const { username } = req.params;
-  const Pin = Math.floor(Math.random() * 900000) + 100000;
+  const { tipo } = req.body;
 
+  const Pin = Math.floor(Math.random() * 900000) + 100000;
   const rescode = await codeExists(username);
+
+  // console.log(tipo);
+
+  if (tipo === "RE") {
+    rescode[0].pin = null;
+  }
 
   if (!rescode[0].pin) {
     const email = rescode[0].email;
@@ -306,5 +313,42 @@ export const removeDietaryCategory = async (req, res) => {
     res.json(data);
   } catch (error) {
     res.status(404).json({ message: error.message });
+  }
+};
+
+export const getUser = async (req, res) => {
+  const { data } = req.body;
+
+  try {
+    const [rows] = await pool.query(
+      "SELECT name, username, lastname, email FROM users WHERE username = ? OR email = ?",
+      [data, data]
+    );
+
+    console.log(rows[0]);
+
+    if (rows[0] === undefined) {
+      return res
+        .status(203)
+        .json("El usuario ingresado no se encuentra registrado");
+    }
+    rows[0].profilePictureUrl = `http://localhost:5500/ProfileP/${rows[0].username}.webp`;
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const verifyPinCode = async (req, res) => {
+  const { username, pin } = req.body;
+  try {
+    const isverify = await verifycode(username, pin, "Recovery");
+    if (isverify === true) {
+      res.status(200).json("Codigo aceptado");
+    } else {
+      res.status(202).json("El codigo No coincide");
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

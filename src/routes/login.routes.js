@@ -5,6 +5,7 @@ import {
   disableAccess,
   enableAccess,
   getDietary,
+  getUser,
   loginuser,
   logout,
   removeDietaryCategory,
@@ -13,6 +14,7 @@ import {
   updateuser,
   validatePassword,
   validationtoken,
+  verifyPinCode,
 } from "../controllers/login.controller.js";
 import { validationSchema } from "../middleware/ValidationSchema.js";
 import {
@@ -50,6 +52,11 @@ router.route("/dietary/:username").delete(removeDietaryCategory);
 
 // ProfilePhoto
 router.route("/removeProfilePhoto/:username").post(removeProfilePhoto);
-router.route("/uploadProfilePhoto").post(upload.single('file'), uploadProfilePhoto);
+router
+  .route("/uploadProfilePhoto")
+  .post(upload.single("file"), uploadProfilePhoto);
+
+router.route("/getUserInfo").post(getUser);
+router.route("/verifyPinCode").post(verifyPinCode);
 
 export default router;

@@ -27,7 +27,7 @@ export const codeExists = async (username) => {
   }
 };
 
-export const verifycode = async (username, pin) => {
+export const verifycode = async (username, pin, tipe) => {
   try {
     const [res] = await pool.query(
       "SELECT pin FROM users WHERE username = ? AND pin = ?",
@@ -37,11 +37,15 @@ export const verifycode = async (username, pin) => {
       return "El codigo Ingresado no coincide";
     }
 
-    const deletecode = await pool.query(
-      "UPDATE users SET pin = NULL WHERE username = ?",
-      [username]
-    );
-    return true;
+    if (tipe === "Recovery") {
+      return true;
+    } else {
+      const deletecode = await pool.query(
+        "UPDATE users SET pin = NULL WHERE username = ?",
+        [username]
+      );
+      return true;
+    }
   } catch (error) {
     console.log(error);
     return error;
