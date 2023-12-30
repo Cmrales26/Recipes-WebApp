@@ -9,8 +9,9 @@ export const UpdateuserRequestHandler = (username, data) =>
 export const validatepassHandler = (username, password) =>
   axios.post(`/validatepass/${username}`, password);
 
-export const sendEmailVerification = (username) =>
-  axios.post(`SendVerificationPin/${username}`);
+export const sendEmailVerification = (username, tipo) =>
+  axios.post(`SendVerificationPin/${username}`, tipo);
+
 export const ChangePasswordHandler = (username, data) =>
   axios.patch(`changepass/${username}`, data);
 
@@ -27,3 +28,7 @@ export const RemoveProfilePicturehandler = (username) =>
 
 export const ProfilePictureHandler = (data) =>
   axios.post(`/uploadProfilePhoto/`, data);
+
+export const getuserData = (username) => axios.post("/getUserInfo/", username);
+
+export const VerifyPin = (data) => axios.post(`/verifyPinCode/`, data);

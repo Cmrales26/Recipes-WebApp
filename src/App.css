@@ -5,6 +5,9 @@
   margin: 0;
   padding: 0;
 }
+.error {
+  color: rgb(230, 75, 75);
+}
 .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
   border-color: transparent !important;
 }
@@ -524,5 +527,201 @@ header {
     text-align: center;
     color: #3c9eef;
     text-decoration: none;
+  }
+}
+.ResendCode {
+  display: flex;
+  justify-content: end;
+  .css-1rn30mb-MuiCircularProgress-root {
+    width: 30px !important;
+    margin-left: 1rem;
+  }
+}
+
+/* FORGOT PASSWORD */
+.tryloginas {
+  background-color: #303030;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ResetOptios {
+    width: 50%;
+  }
+
+  .FoundUser {
+    color: #fafafa;
+    border-radius: 10px;
+    background-color: #1f1f1f;
+    h1 {
+      padding: 1rem 2rem;
+      color: #3c9eef;
+    }
+    p {
+      padding: 1rem 2rem;
+    }
+    .FormularioBusqueda {
+      padding: 0rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    form {
+      width: 100%;
+    }
+    .MuiTextField-root {
+      width: 100%;
+      margin: 0px !important;
+      margin-bottom: 1rem !important;
+      label {
+        color: #fafafa;
+      }
+      input {
+        width: 100%;
+        border-radius: 10px;
+        color: #fafafa;
+        background-color: #303030;
+        fieldset {
+          border: none;
+        }
+      }
+    }
+    .btncontainer {
+      width: 100%;
+      display: flex;
+      align-items: end;
+      justify-content: end;
+      margin-bottom: 2rem;
+    }
+    .cancelfounduser {
+      background-color: #d8d6d6;
+      color: #545454;
+    }
+  }
+
+  .EnviarCodigoReinicioContainer {
+    margin: 1rem;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    color: #d8d6d6;
+    h1 {
+      color: #3c9eef;
+      padding: 2rem;
+    }
+    hr {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .Options {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ChangeUserPassForm {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    width: 100%;
+    .Whattodo {
+      margin-top: 5rem;
+      legend {
+        color: #fafafa;
+        margin-bottom: 0.5rem;
+      }
+      .css-vqmohf-MuiButtonBase-root-MuiRadio-root {
+        color: #3c9eef;
+      }
+    }
+    .UserInfo {
+      text-align: center;
+      margin-left: 2rem;
+      /* border: 2px solid red; */
+      figure {
+        img {
+          width: 200px;
+          min-height: 200px;
+          max-height: 200px;
+          border-radius: 100px;
+        }
+      }
+      .btncontainer {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        .cancelsendemail {
+          background-color: #d8d6d6;
+          color: #545454;
+        }
+      }
+    }
+  }
+}
+
+/* CODE TO RECOVERY */
+
+.EntercodeContainer {
+  background-color: #303030;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .LoginFormConainer {
+    border-radius: 10px;
+    background-color: #1f1f1f;
+    padding: 2rem;
+    width: 50%;
+    color: #fafafa;
+    label {
+      color: #d8d6d6;
+    }
+    .MuiTextField-root {
+      margin: 8px 0px;
+      margin-top: 1rem;
+    }
+    input {
+      color: white;
+      margin: 0;
+      background-color: #303030;
+      border-radius: 10px;
+    }
+    .ReSend {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
+  }
+}
+
+/* RECOVERY PASS */
+.Recoverypass {
+  background-color: #303030;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  .LoginFormConainer {
+    width: 40%;
+    background-color: #1f1f1f;
+    padding: 2rem;
+    .MuiTextField-root {
+      margin: 0px !important;
+      margin-bottom: 1rem !important;
+      label {
+        color: #fafafa;
+      }
+      input {
+        border-radius: 10px;
+        color: #fafafa;
+        background-color: #303030;
+        fieldset {
+          border: none;
+        }
+      }
+    }
+    .css-sghohy-MuiButtonBase-root-MuiButton-root {
+      width: 100% !important;
+      margin-bottom: 1rem;
+    }
   }
 }

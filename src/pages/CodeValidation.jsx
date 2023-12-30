@@ -1,8 +1,16 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { UseUser } from "../context/user.context";
-import { Alert, Box, Button, Snackbar, Stack, TextField } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Snackbar,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const CodeValidation = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -10,7 +18,34 @@ const CodeValidation = () => {
   const { user, sendEmail, changePassword, setError, error } = UseUser();
   const [status, setStatus] = useState("");
   const [SnackpassOpen, setSnackPassOpen] = useState(false);
+  const [count, setCount] = useState(100);
+  const [canresend, setCanResend] = useState(true);
+  const [tries, setTries] = useState(0);
   const params = useParams();
+
+  useEffect(() => {
+    if (!correctemail) {
+      return;
+    }
+    const value = setInterval(() => {
+      setCount((oldCount) => (oldCount > 0 ? oldCount - 1 : 0));
+    }, 50);
+    return () => {
+      clearInterval(value);
+      if (tries === 2) {
+        setCanResend(false);
+      }
+    };
+  });
+
+  const resendEmail = () => {
+    setTries(tries + 1);
+
+    if (canresend) {
+      setCount(100);
+      sendEmail(user.username, { tipo: "RE" });
+    }
+  };
 
   const {
     register,
@@ -53,7 +88,7 @@ const CodeValidation = () => {
       }
     } else {
       if (value.email === user.email) {
-        sendEmail(user.username)
+        sendEmail(user.username, { tipo: "SE" })
           .then((res) => {
             console.log(res.data);
             setStatus(res.status);
@@ -96,16 +131,10 @@ const CodeValidation = () => {
                 {status === 202
                   ? `Su código de verificación ha sido enviado anteriormente, por favor revise el correo ${hideMail(
                       user.email
-                    )} o `
+                    )}`
                   : `Por su seguridad hemos enviado un código de 6 dígitos al correo ${hideMail(
                       user.email
                     )}`}
-
-                {status === 202 && (
-                  <Link to="/ruta-de-enviar-codigo">
-                    Volver a Enviar Código
-                  </Link>
-                )}
               </p>
               {error ? (
                 <p style={{ marginTop: "10px" }} className="error">
@@ -131,12 +160,43 @@ const CodeValidation = () => {
                   },
                 })}
               />
+              <div className="ResendCode">
+                {canresend ? (
+                  <Button
+                    disabled={count === 0 ? false : true}
+                    onClick={resendEmail}
+                  >
+                    Volver a Enviar Código
+                  </Button>
+                ) : (
+                  <Button
+                    // color="success"
+                    disabled
+                  >
+                    No se puede reenviar el codigo
+                  </Button>
+                )}
+
+                {count === 0 ? null : (
+                  <CircularProgress variant="determinate" value={count} />
+                )}
+              </div>
+
               {errors.code && (
                 <div className="error">{errors.code.message}</div>
               )}
+
               <Stack spacing={1} direction="row" className="btncontainer">
                 <Button className="btnlogin" type="submit" variant="contained">
                   Confirmar
+                </Button>
+                <Button
+                  className="btnlogin"
+                  onClick={() => setCorrectemail(false)}
+                  type="button"
+                  variant="outlined"
+                >
+                  cancelar
                 </Button>
               </Stack>
             </div>
@@ -145,8 +205,8 @@ const CodeValidation = () => {
               <h2>Intoduzca su email</h2>
               <p>
                 Por su seguridad complete el siguente correo electronico
-                electronico ${hideMail(user.email)} para enviar un código de
-                verificación
+                electronico {hideMail(user.email)} para enviar un código de
+                verificación.
               </p>
               {error ? (
                 <p style={{ marginTop: "10px" }} className="error">
@@ -174,7 +234,6 @@ const CodeValidation = () => {
                   style={{ fontSize: "14px" }}
                   onClick={() => setCorrectemail(true)}
                 >
-                  {" "}
                   Ya tengo un Código
                 </a>
               </div>

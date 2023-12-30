@@ -12,6 +12,8 @@ import {
   ChangePasswordHandler,
   RemoveProfilePicturehandler,
   ProfilePictureHandler,
+  getuserData,
+  VerifyPin,
 } from "../api/auth";
 
 import Cookies from "universal-cookie";
@@ -54,7 +56,6 @@ export const UserProvider = ({ children }) => {
       }
     }
     logincheck();
-    console.log("i fire once");
   }, []);
 
   useEffect(() => {
@@ -136,9 +137,10 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const sendEmail = async (username) => {
+  const sendEmail = async (username, tipo) => {
     try {
-      const res = await sendEmailVerification(username);
+      const res = await sendEmailVerification(username, tipo);
+      console.log(res);
       return res;
     } catch (error) {
       console.log(error);
@@ -176,6 +178,26 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const getUser = async (username) => {
+    try {
+      const res = await getuserData(username);
+      return res;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const VerifiPinRecovery = async (data) => {
+    try {
+      const res = await VerifyPin(data);
+      return res;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
   return (
     <Usercontext.Provider
       value={{
@@ -194,6 +216,8 @@ export const UserProvider = ({ children }) => {
         changePassword,
         removeProfilePhoto,
         uploadProfilePhoto,
+        getUser,
+        VerifiPinRecovery,
       }}
     >
       {children}

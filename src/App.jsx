@@ -11,6 +11,9 @@ import ProfileConfig from "./pages/ProfileConfig";
 import EditUser from "./pages/EditUser";
 import UpdatePass from "./pages/UpdatePass";
 import CodeValidation from "./pages/CodeValidation";
+import TryLoginAs from "./pages/TryLoginAs";
+import PinResetPass from "./pages/PinResetPass";
+import Recoverypass from "./pages/Recoverypass";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +22,17 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/login" element={<Login />}></Route>
+            <Route path="/login/forgot" element={<TryLoginAs />}></Route>
+            <Route
+              path="/login/forgot/entercode"
+              element={<PinResetPass />}
+            ></Route>
+            <Route
+              path="/login/forgot/entercode/RecoveryPass"
+              element={<Recoverypass />}
+            ></Route>
+
+            {/* rutas protegidas */}
             <Route element={<Protectedroute />}>
               <Route path="/home" element={<Home />}></Route>
               <Route path="/Profile/:username" element={<Profile />}></Route>

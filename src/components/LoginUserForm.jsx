@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const LoginUserForm = (props) => {
   const { loginUser, error } = UseUser();
@@ -18,7 +19,16 @@ const LoginUserForm = (props) => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
+
+  useEffect(() => {
+    if (props.statteusername === null) {
+      return;
+    } else {
+      setValue("username", props.statteusername);
+    }
+  }, []);
 
   const onSubmit = handleSubmit(async (values) => {
     loginUser(values);
@@ -93,7 +103,7 @@ const LoginUserForm = (props) => {
         {errors.password && <p className="error">{errors.password.message}</p>}
       </div>
       <div className="rememberpass">
-        <Link to={"/forgotPass"}>Olvidé mi contraseña</Link>
+        <Link to={"/login/forgot"}>Olvidé mi contraseña</Link>
       </div>
 
       <Stack spacing={1} direction="row" className="btncontainer">

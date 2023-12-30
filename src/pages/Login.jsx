@@ -2,10 +2,11 @@ import { useState } from "react";
 import LoginUserForm from "../components/LoginUserForm";
 import CreateUserForm from "../components/CreateUserForm";
 import UserSelectCategories from "../components/UserSelectCategories";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { UseUser } from "../context/user.context";
 
 const Login = () => {
+  const location = useLocation();
   const [isCreating, setIscreating] = useState(false);
   const [isSelecting, setIsselecting] = useState(false);
 
@@ -13,6 +14,14 @@ const Login = () => {
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+
+  let stateusername = "";
+
+  if (location.state === null) {
+    stateusername = null;
+  } else {
+    stateusername = location.state.username;
   }
 
   return (
@@ -33,7 +42,10 @@ const Login = () => {
         ) : (
           <div className="LoginForm">
             <figure>
-              <img src="images/Imagotipo.svg" alt="Logotipo de la pagina RC" />
+              <img
+                src="/images/Imagotipo.svg"
+                alt="Logotipo de la pagina RCaaa"
+              />
             </figure>
             <CreateUserForm
               setIsCreating={setIscreating}
@@ -46,11 +58,12 @@ const Login = () => {
       ) : (
         <div className="LoginForm">
           <figure>
-            <img src="images/Imagotipo.svg" alt="Logotipo de la pagina RC" />
+            <img src="/images/Imagotipo.svg" alt="Logotipo de la pagina RC" />
           </figure>
           <LoginUserForm
             setIsCreating={setIscreating}
             isCreating={isCreating}
+            statteusername={stateusername}
           />
         </div>
       )}
