@@ -6,7 +6,12 @@
   padding: 0;
 }
 .error {
-  color: rgb(230, 75, 75);
+  color: #e64b4b;
+}
+.servereror {
+  text-align: center;
+  color: #e64b4b;
+  margin-bottom: 1rem;
 }
 .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
   border-color: transparent !important;
@@ -61,6 +66,7 @@
     margin-bottom: 1rem;
     a {
       color: #3c9eef;
+      margin-left: 0px;
     }
   }
   .css-sghohy-MuiButtonBase-root-MuiButton-root {
@@ -723,5 +729,100 @@ header {
       width: 100% !important;
       margin-bottom: 1rem;
     }
+  }
+}
+
+.DisableAccount {
+  background-color: #303030;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d8d6d6;
+  .DisableContainer {
+    width: 50%;
+    background-color: #1f1f1f;
+    padding: 2rem;
+    border-radius: 10px;
+    h3 {
+      color: #e64b4b;
+      margin-bottom: 1rem;
+    }
+  }
+  .css-pl8gqh-MuiStack-root {
+    margin-top: 2rem !important;
+    display: flex;
+    justify-content: end;
+    width: 100%;
+  }
+  .InserPass {
+    width: 60%;
+    background-color: #1f1f1f;
+    padding: 2rem;
+    border-radius: 10px;
+    p {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .MuiTextField-root {
+      margin: 0px !important;
+      margin-bottom: 1rem !important;
+      width: 100%;
+
+      label {
+        color: #fafafa;
+      }
+      input {
+        border-radius: 10px;
+        color: #fafafa;
+        background-color: #303030;
+        fieldset {
+          border: none;
+        }
+      }
+    }
+  }
+}
+.EnablaAccount {
+  background-color: #303030;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .ContainerEnable {
+    background-color: #1f1f1f;
+    color: #d8d6d6;
+    padding: 2rem;
+    width: 60%;
+    border-radius: 10px;
+    p {
+      margin-bottom: 1rem;
+    }
+    .btnenable {
+      display: flex;
+      justify-content: end;
+    }
+    .MuiTextField-root {
+      margin: 0px !important;
+      margin-bottom: 1rem !important;
+      width: 100%;
+
+      label {
+        color: #fafafa;
+      }
+      input {
+        border-radius: 10px;
+        color: #fafafa;
+        background-color: #303030;
+        fieldset {
+          border: none;
+        }
+      }
+    }
+  }
+  .EntercodeContainer {
+    width: 100%;
   }
 }

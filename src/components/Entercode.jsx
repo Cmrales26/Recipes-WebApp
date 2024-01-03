@@ -1,10 +1,53 @@
-import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Snackbar,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { UseUser } from "../context/user.context";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Entercode = (props) => {
   const navigate = useNavigate();
+  const [count, setCount] = useState(100);
+  const [tries, setTries] = useState(0);
+  const [canresend, setCanResend] = useState(true);
+  const [SnackpassOpen, setSnackPassOpen] = useState(false);
+
+  const { sendEmail, EnablaAccount } = UseUser();
+
+  useEffect(() => {
+    if (props.RecoveAcc) {
+      sendEmail(props.userInfo.username, { tipo: "SE" });
+    }
+  }, []);
+
+  useEffect(() => {
+    const value = setInterval(() => {
+      setCount((oldCount) => (oldCount > 0 ? oldCount - 1 : 0));
+    }, 50);
+    return () => {
+      clearInterval(value);
+      if (tries === 2) {
+        setCanResend(false);
+      }
+    };
+  });
+
+  const resendEmail = () => {
+    setTries(tries + 1);
+
+    if (canresend) {
+      setCount(100);
+      sendEmail(props.userInfo.username, { tipo: "RE" });
+    }
+  };
+
   const { VerifiPinRecovery, error, setError } = UseUser();
   const {
     register,
@@ -19,13 +62,25 @@ const Entercode = (props) => {
     };
     const res = await VerifiPinRecovery(data);
     if (res.status === 200) {
-      navigate("/login/forgot/entercode/RecoveryPass", {
-        state: {
-          username: props.userInfo.username,
-          pin: values.code,
-          isRecovering: true,
-        },
-      });
+      if (!props.RecoveAcc) {
+        navigate("/login/forgot/entercode/RecoveryPass", {
+          state: {
+            username: props.userInfo.username,
+            pin: values.code,
+            isRecovering: true,
+          },
+        });
+      } else {
+        const res = await EnablaAccount(props.userInfo.username, {
+          codeverify: values.code,
+        });
+        if (res.status === 200) {
+          setSnackPassOpen(true);
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        }
+      }
     } else {
       setError(res.data);
     }
@@ -43,11 +98,18 @@ const Entercode = (props) => {
         className="LoginFormConainer"
         onSubmit={onSubmit}
       >
+        <Snackbar
+          open={SnackpassOpen}
+          autoHideDuration={2000}
+          message="Usuario actualiado con exito"
+        >
+          <Alert severity="success">Usuario activad: Inicie Sesión</Alert>
+        </Snackbar>
         <div className="">
           <h1>Introduzca el codigo</h1>
           <p>
             Por su seguridad hemos enviado un código de 6 dígitos al correo{" "}
-            {props.userInfo.email}
+            <b>{props.userInfo.email}</b>
           </p>
           <TextField
             required
@@ -70,13 +132,36 @@ const Entercode = (props) => {
           />
           {errors.code && <div className="error">{errors.code.message}</div>}
           {error ? <div className="error">{error}</div> : null}
-          <div className="ReSend">
-            <Button>Renviar Codigo</Button>
+          <div className="ResendCode">
+            {canresend ? (
+              <Button
+                disabled={count === 0 ? false : true}
+                onClick={resendEmail}
+              >
+                Volver a Enviar Código
+              </Button>
+            ) : (
+              <Button disabled>No se puede reenviar el codigo</Button>
+            )}
+
+            {count === 0 ? null : (
+              <CircularProgress variant="determinate" value={count} />
+            )}
           </div>
         </div>
-        <Button type="submit" variant="contained">
-          Enviar Codigo
-        </Button>
+        <Stack spacing={2} direction="row" className="btncontainer">
+          <Button type="submit" variant="contained">
+            Enviar Codigo
+          </Button>
+          <Button
+            className="btnlogin"
+            onClick={() => navigate("/home")}
+            type="button"
+            variant="outlined"
+          >
+            cancelar
+          </Button>
+        </Stack>
       </Box>
     </section>
   );

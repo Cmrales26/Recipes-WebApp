@@ -14,6 +14,8 @@ import CodeValidation from "./pages/CodeValidation";
 import TryLoginAs from "./pages/TryLoginAs";
 import PinResetPass from "./pages/PinResetPass";
 import Recoverypass from "./pages/Recoverypass";
+import DisableAccount from "./pages/DisableAccount";
+import EnableAccount from "./pages/EnableAccount";
 function App() {
   return (
     <BrowserRouter>
@@ -30,6 +32,10 @@ function App() {
             <Route
               path="/login/forgot/entercode/RecoveryPass"
               element={<Recoverypass />}
+            ></Route>
+            <Route
+              path="/enableAccount/:username"
+              element={<EnableAccount />}
             ></Route>
 
             {/* rutas protegidas */}
@@ -55,6 +61,10 @@ function App() {
               <Route
                 path="/Profile/:username/ChangePassword"
                 element={<UpdatePass />}
+              ></Route>
+              <Route
+                path="/DisableAccount/:username"
+                element={<DisableAccount />}
               ></Route>
             </Route>
           </Routes>

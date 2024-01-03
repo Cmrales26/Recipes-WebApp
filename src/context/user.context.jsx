@@ -14,6 +14,8 @@ import {
   ProfilePictureHandler,
   getuserData,
   VerifyPin,
+  DisableAccountHandle,
+  EnableAccountHandle,
 } from "../api/auth";
 
 import Cookies from "universal-cookie";
@@ -85,13 +87,13 @@ export const UserProvider = ({ children }) => {
   const loginUser = async (data) => {
     try {
       const res = await LoginRequestHandler(data);
-      console.log(res.data);
       setUser(res.data);
       setIsAuth(true);
       setLoading(false);
+      return res;
     } catch (error) {
       setError(error.response.data.message);
-      console.log(error.response.data.message);
+      return error;
     }
   };
 
@@ -198,6 +200,26 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const DisableAccount = async (username) => {
+    try {
+      const res = await DisableAccountHandle(username);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const EnablaAccount = async (username, code) => {
+    try {
+      const res = await EnableAccountHandle(username, code);
+      return res;
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
+
   return (
     <Usercontext.Provider
       value={{
@@ -218,6 +240,8 @@ export const UserProvider = ({ children }) => {
         uploadProfilePhoto,
         getUser,
         VerifiPinRecovery,
+        DisableAccount,
+        EnablaAccount,
       }}
     >
       {children}

@@ -42,7 +42,7 @@ const ProfileConfig = () => {
             </Link>
           </div>
           <div className="UserInfoCag">
-            <Link to={"/Editacount"} className="">
+            <Link to={`/DisableAccount/${user.username}`} className="">
               <FontAwesomeIcon icon={faHeartBroken} className="faHeartBroken" />
               <span>Desactivar la cuenta</span>
 

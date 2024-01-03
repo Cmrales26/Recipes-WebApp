@@ -32,3 +32,9 @@ export const ProfilePictureHandler = (data) =>
 export const getuserData = (username) => axios.post("/getUserInfo/", username);
 
 export const VerifyPin = (data) => axios.post(`/verifyPinCode/`, data);
+
+// Disable / Enable
+export const DisableAccountHandle = (username) =>
+  axios.put(`/disable/${username}`);
+export const EnableAccountHandle = (username, code) =>
+  axios.put(`/enable/${username}`, code);

@@ -7,10 +7,11 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const LoginUserForm = (props) => {
   const { loginUser, error } = UseUser();
+  const [enable, setEnable] = useState(false);
 
   const Navigate = useNavigate();
 
@@ -20,6 +21,7 @@ const LoginUserForm = (props) => {
     formState: { errors },
     reset,
     setValue,
+    getValues,
   } = useForm();
 
   useEffect(() => {
@@ -31,8 +33,12 @@ const LoginUserForm = (props) => {
   }, []);
 
   const onSubmit = handleSubmit(async (values) => {
-    loginUser(values);
-    console.log(values);
+    const res = await loginUser(values);
+
+    if (res.response.status === 403) {
+      setEnable(true);
+      return;
+    }
     Navigate("/home");
   });
 
@@ -53,7 +59,9 @@ const LoginUserForm = (props) => {
       onSubmit={onSubmit}
     >
       <h3>Bienvenido de vuelta,</h3>
-      <p>Inicia Sesión para Continuar</p>
+      <div className="">
+        <p>Inicia Sesión para Continuar </p>
+      </div>
       {error ? <div className="servereror">{error}</div> : null}
       <div className="formularioIniciar">
         <TextField
@@ -103,25 +111,63 @@ const LoginUserForm = (props) => {
         {errors.password && <p className="error">{errors.password.message}</p>}
       </div>
       <div className="rememberpass">
-        <Link to={"/login/forgot"}>Olvidé mi contraseña</Link>
+        <Link
+          to={"/login/forgot"}
+          style={{ display: enable ? "none" : "block" }}
+        >
+          Olvidé mi contraseña
+        </Link>
       </div>
 
       <Stack spacing={1} direction="row" className="btncontainer">
-        <Button className="btnlogin" type="submit" variant="contained">
-          iniciar Sesión
-        </Button>
+        {enable ? (
+          <Button
+            variant="contained"
+            onClick={() => Navigate(`/enableAccount/${getValues("username")}`)}
+          >
+            Reactivar cuenta
+          </Button>
+        ) : (
+          <Button className="btnlogin" type="submit" variant="contained">
+            iniciar Sesión
+          </Button>
+        )}
       </Stack>
-      <Stack spacing={1} direction="column" className="btncontainer">
-        <p>¿No tienes una cuenta?</p>
-        <Button
-          className="btnlogin"
-          type="button"
-          variant="outlined"
-          onClick={() => resetform()}
-        >
-          Crear cuenta
-        </Button>
-      </Stack>
+      {enable ? (
+        <div className="">
+          <p>¿Que desea Hacer?</p>
+          <Stack spacing={2} direction="row" className="btncontainer">
+            <Button
+              className="btnlogin"
+              type="button"
+              variant="contained"
+              onClick={() => resetform()}
+            >
+              Crear cuenta
+            </Button>
+            <Button
+              className="btnlogin"
+              type="button"
+              variant="contained"
+              onClick={() => setEnable(false)}
+            >
+              Iniciar Sesión con otra cuenta
+            </Button>
+          </Stack>
+        </div>
+      ) : (
+        <Stack spacing={1} direction="column" className="btncontainer">
+          <p>¿No tienes una cuenta?</p>
+          <Button
+            className="btnlogin"
+            type="button"
+            variant="outlined"
+            onClick={() => resetform()}
+          >
+            Crear cuenta
+          </Button>
+        </Stack>
+      )}
     </Box>
   );
 };
