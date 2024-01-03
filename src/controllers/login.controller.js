@@ -213,12 +213,21 @@ export const disableAccess = async (req, res) => {
 
 export const enableAccess = async (req, res) => {
   const user = req.params;
+  const { codeverify } = req.body;
   try {
+    const codeValidation = await verifycode(
+      user.username,
+      codeverify,
+      "Change"
+    );
     const [rows] = await pool.query(
-      "UPDATE users SET status = 1 WHERE username =?",
+      "UPDATE users SET status = 1 WHERE username = ?",
       [user.username]
     );
-    res.json({ menubar: `${user.username} have been enable` });
+
+    if (rows.affectedRows > 0) {
+      res.status(200).json(`${user.username} have been enable`);
+    }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -281,12 +290,14 @@ export const validatePassword = async (req, res) => {
   const { password } = req.body;
   const { username } = req.params;
 
+  console.log(password, username);
+
   const ispass = await checkpass(username, password);
 
   if (!ispass) {
     return res.status(404).json({ message: "Contraseña Incorrecta" });
   }
-  return res.status(200).json(true);
+  return res.status(200).json({ message: "Contraseña correcta" });
 };
 
 export const getDietary = async (req, res) => {
