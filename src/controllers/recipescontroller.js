@@ -5,6 +5,12 @@ export const getRecipes = async (req, res) => {
     const [rows] = await pool.query(
       "SELECT r.*, ROUND(AVG(us.calificacion),1) AS promedio_calificaciones FROM recetas r LEFT JOIN user_score us ON r.id_receta = us._id_receta GROUP BY r.id_receta"
     );
+
+    for (let i = 0; i < rows.length; i++) {
+      rows[
+        i
+      ].ImagenURL = `http://localhost:5500/Recipes/${rows[i].id_receta}.webp`;
+    }
     return res.status(200).json(rows);
   } catch (error) {
     return res.status(400).json({ error: error });

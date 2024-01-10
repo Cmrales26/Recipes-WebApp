@@ -43,23 +43,6 @@ export const createuser = async (req, res) => {
   }
 };
 
-export const saveuser_dietaty = async (req, res) => {
-  const user = req.params;
-  const data = req.body;
-
-  try {
-    for (let i = 0; i < data.length; i++) {
-      const [rows] = await pool.query(
-        "INSERT INTO user_categoria (id_usuario, id_categoria) VALUES (?,?)",
-        [user.username, data[i]]
-      );
-    }
-    res.json({ message: "success" });
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
 export const loginuser = async (req, res) => {
   const data = req.body;
   try {
@@ -300,33 +283,6 @@ export const validatePassword = async (req, res) => {
   return res.status(200).json({ message: "Contraseña correcta" });
 };
 
-export const getDietary = async (req, res) => {
-  const user = req.params;
-  try {
-    const [rows] = await pool.query(
-      "SELECT user_categoria.id_categoria,categorias.nombre_categoria FROM user_categoria JOIN categorias on user_categoria.id_categoria = categorias.id_categoria WHERE id_usuario = ?",
-      [user.username]
-    );
-    res.json(rows);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
-export const removeDietaryCategory = async (req, res) => {
-  const user = req.params;
-  const data = req.body;
-  try {
-    const [rows] = await pool.query(
-      "DELETE FROM user_categoria WHERE id_usuario = ? AND id_categoria =?",
-      [user.username, data.id_categoria]
-    );
-    res.json(data);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
 export const getUser = async (req, res) => {
   const { data } = req.body;
 
@@ -361,5 +317,49 @@ export const verifyPinCode = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const saveuser_dietaty = async (req, res) => {
+  const user = req.params;
+  const data = req.body;
+
+  try {
+    for (let i = 0; i < data.length; i++) {
+      const [rows] = await pool.query(
+        "INSERT INTO user_categoria (id_usuario, id_categoria) VALUES (?,?)",
+        [user.username, data[i]]
+      );
+    }
+    res.json({ message: "success" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getDietary = async (req, res) => {
+  const user = req.params;
+  try {
+    const [rows] = await pool.query(
+      "SELECT user_categoria.id_categoria,categorias.nombre_categoria FROM user_categoria JOIN categorias on user_categoria.id_categoria = categorias.id_categoria WHERE id_usuario = ?",
+      [user.username]
+    );
+    res.json(rows);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const removeDietaryCategory = async (req, res) => {
+  const user = req.params;
+  const data = req.body;
+  try {
+    const [rows] = await pool.query(
+      "DELETE FROM user_categoria WHERE id_usuario = ? AND id_categoria =?",
+      [user.username, data.id_categoria]
+    );
+    res.json(data);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 };

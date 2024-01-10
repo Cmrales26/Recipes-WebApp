@@ -8,6 +8,7 @@ import recipes from "./routes/recipes.routes.js";
 const app = express();
 
 app.use("/profileP", express.static("public/PP"));
+app.use("/Recipes", express.static("public/Recipes"));
 
 app.use(
   cors({
