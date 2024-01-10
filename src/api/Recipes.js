@@ -1,7 +1,3 @@
-const apiKey = import.meta.env.VITE_RECIPIE_API_KEY;
+import axios from "./axios";
 
-export const getPopular = async () => {
-  const api = await fetch();
-  const data = api.json();
-  return data;
-};
+export const gerRecipesHandler = () => axios.get("/recipes");
