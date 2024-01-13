@@ -17,6 +17,8 @@ import PinResetPass from "./pages/PinResetPass";
 import Recoverypass from "./pages/Recoverypass";
 import DisableAccount from "./pages/DisableAccount";
 import EnableAccount from "./pages/EnableAccount";
+import RecipeInfo from "./pages/RecipeInfo";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -25,7 +27,8 @@ function App() {
         <CategoriesProvider>
           <RecipesProvider>
             <Routes>
-              <Route path="/" element={<Login />}></Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/home" element={<Home />}></Route>
               <Route path="/login" element={<Login />}></Route>
               <Route path="/login/forgot" element={<TryLoginAs />}></Route>
               <Route
@@ -40,10 +43,13 @@ function App() {
                 path="/enableAccount/:username"
                 element={<EnableAccount />}
               ></Route>
+              <Route
+                path="/recipe/:recipeCode"
+                element={<RecipeInfo />}
+              ></Route>
 
               {/* rutas protegidas */}
               <Route element={<Protectedroute />}>
-                <Route path="/home" element={<Home />}></Route>
                 <Route path="/Profile/:username" element={<Profile />}></Route>
                 <Route
                   path="/Profile/:username/configuration"
@@ -69,6 +75,7 @@ function App() {
                   path="/DisableAccount/:username"
                   element={<DisableAccount />}
                 ></Route>
+                <Route path="/admin" element={<Admin />}></Route>
               </Route>
             </Routes>
           </RecipesProvider>

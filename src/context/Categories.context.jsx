@@ -14,7 +14,7 @@ export const UseCategories = () => {
 };
 
 export const CategoriesProvider = ({ children }) => {
-  //   const [error, setError] = useState("");
+  const [error, setError] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,6 +23,7 @@ export const CategoriesProvider = ({ children }) => {
       const res = await getCategoryReques();
       setCategories(res.data);
       setLoading(false);
+      return res;
     } catch (error) {
       console.log(error);
     }

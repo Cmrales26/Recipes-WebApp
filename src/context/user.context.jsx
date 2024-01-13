@@ -38,6 +38,7 @@ export const UserProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [AdminView, setAdminView] = useState("Dashboard");
 
   useEffect(() => {
     async function logincheck() {
@@ -227,6 +228,8 @@ export const UserProvider = ({ children }) => {
         error,
         user,
         loading,
+        AdminView,
+        setAdminView,
         setError,
         creatUser,
         loginUser,

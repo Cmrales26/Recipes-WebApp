@@ -134,6 +134,7 @@
 header {
   z-index: 99;
   position: fixed !important;
+  top: 0;
   background-color: #fafafa !important;
   padding: 1rem;
   .css-hyum1k-MuiToolbar-root {
@@ -152,7 +153,7 @@ header {
   }
   .css-1x51dt5-MuiInputBase-input-MuiInput-input {
     width: 40rem !important;
-    color: white;
+    color: #1f1f1f;
   }
   .SearchIcon {
     color: #3c9eef;
@@ -832,14 +833,12 @@ header {
 
 /* CARDS */
 .recipes-Section {
+  margin-top: 6rem;
   padding: 1.5rem;
   background-color: #fafafa;
-  h1 {
-    margin-bottom: 1rem;
-  }
 }
 .recipes {
-  padding-top: 5rem;
+  padding-top: 2rem;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -871,5 +870,142 @@ header {
   }
   .Recipescard:hover {
     transform: scale(1.02);
+  }
+}
+
+/* RECIPE VIEW */
+.recipeContainer {
+  margin-top: 6rem;
+
+  .RecipeimgContainer {
+    position: absolute;
+    width: 100%;
+
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    /* Pseudo-elemento para aplicar un fondo oscuro */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 300px;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+  }
+
+  .maincontent {
+    color: white;
+    height: 300px;
+    display: flex;
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    .info {
+      width: 50%;
+    }
+    .categories {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      .RecipeCategory {
+        background-color: #3c9eef8d;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+      }
+    }
+    .Starandtime {
+      display: flex;
+      align-items: center;
+      .Time {
+        margin-top: 1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      .MuiRating-icon {
+        margin-top: 1rem;
+      }
+      .MuiRating-iconEmpty {
+        color: white !important;
+        opacity: 0.55;
+      }
+    }
+  }
+}
+
+/* ADMINCONTET */
+.AdmiContent {
+  padding: 2rem;
+  margin-top: 6rem;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.CreateRecipeForm {
+  width: 70%;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  justify-content: space-between;
+  .recipename-time-form {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    .recipename,
+    .recipetime {
+      flex: 1;
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #d8d6d6;
+    padding: 1rem;
+  }
+  .MuiInputBase-root,
+  .MuiFormControl-root {
+    padding: 0;
+    margin: 5px 0px !important;
+  }
+  details {
+    margin-bottom: 1rem;
+  }
+  summary {
+    font-weight: 700;
+    font-size: 20px;
+  }
+  .ingredetns {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    .deleteIngredient {
+      padding: 1rem 2rem;
+    }
+  }
+  .categories {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    cursor: pointer;
+    .Catvalue {
+      border: 2px solid #3c9eef;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+    }
+    .selected {
+      background-color: #3c9eef;
+    }
   }
 }

@@ -42,7 +42,7 @@ const RecipeCard = () => {
                   <Box>
                     <Rating
                       name="simple-controlled"
-                      value={recipe.promedio_calificaciones}
+                      value={parseFloat(recipe.promedio_calificaciones)}
                       precision={0.5}
                       readOnly
                     />
