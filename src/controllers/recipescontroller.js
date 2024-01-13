@@ -19,9 +19,10 @@ export const getRecipes = async (req, res) => {
 
 export const getRecipy = async (req, res) => {
   const id_receta = req.params.id_receta;
+  console.log(id_receta);
   try {
     const [receta] = await pool.query(
-      "SELECT r.id_receta, r.ImagenURL, r.Titulo, r.Instrucciones, r.Ingredientes, r.Tiempo, r.InfoNutricional, ROUND(AVG(us.calificacion), 1) AS promedio_calificaciones FROM recetas r LEFT JOIN user_score us ON r.id_receta = us._id_receta WHERE id_receta = ? GROUP BY r.id_receta, r.ImagenURL, r.Titulo, r.Instrucciones, r.Ingredientes, r.Tiempo, r.InfoNutricional",
+      "SELECT r.id_receta, r.ImagenURL, r.Titulo, r.Instrucciones, r.Ingredientes,r.descripcion, r.Tiempo, r.InfoNutricional, ROUND(AVG(us.calificacion), 1) AS promedio_calificaciones FROM recetas r LEFT JOIN user_score us ON r.id_receta = us._id_receta WHERE id_receta = ? GROUP BY r.id_receta, r.ImagenURL, r.Titulo, r.Instrucciones, r.Ingredientes, r.Tiempo, r.InfoNutricional",
       [id_receta]
     );
 
@@ -29,6 +30,8 @@ export const getRecipy = async (req, res) => {
       "SELECT c.nombre_categoria FROM Recetas_Categorias rc JOIN categorias c on rc.id_categoria = c.id_categoria WHERE rc.id_receta = ? ",
       [id_receta]
     );
+
+    receta[0].ImagenURL = `http://localhost:5500/Recipes/${id_receta}.webp`;
 
     return res.status(200).json({ receta, categorias });
   } catch (error) {
