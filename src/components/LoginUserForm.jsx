@@ -35,11 +35,15 @@ const LoginUserForm = (props) => {
   const onSubmit = handleSubmit(async (values) => {
     const res = await loginUser(values);
 
-    if (res.response.status === 403) {
+    if (res.status === 202) {
+      Navigate("/home");
+      return;
+    }
+
+    if (res.status === 403) {
       setEnable(true);
       return;
     }
-    Navigate("/home");
   });
 
   const resetform = () => {

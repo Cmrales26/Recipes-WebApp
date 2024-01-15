@@ -1008,4 +1008,10 @@ header {
       background-color: #3c9eef;
     }
   }
+  .stepperbtn {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: end;
+    gap: 2rem;
+  }
 }

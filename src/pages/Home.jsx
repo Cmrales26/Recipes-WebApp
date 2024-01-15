@@ -9,10 +9,11 @@ const Home = () => {
   const Navigate = useNavigate();
 
   useEffect(() => {
+    console.log(user)
     if (isAuth && user.rol === "admin") {
       Navigate("/admin");
     }
-  }, []);
+  }, [isAuth]);
 
   return (
     <div className="homepagerecipes">

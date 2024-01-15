@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Button,
-  Stack,
   Step,
   StepContent,
   StepLabel,
@@ -13,11 +12,13 @@ import {
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { UseCategories } from "../../context/Categories.context";
+import { UseRecipes } from "../../context/Recipes.context";
 
 const CreateRecipe = () => {
   const [datacategories, setDataCategories] = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState([]);
   const { getCategories, loading } = UseCategories();
+  const { createRecipe } = UseRecipes();
   const [activeStep, setActiveStep] = useState(0);
   const [caterror, setCaterror] = useState(null);
 
@@ -86,7 +87,7 @@ const CreateRecipe = () => {
     return <h1>...Loading</h1>;
   }
 
-  const onSubmit = handleSubmit((value) => {
+  const onSubmit = handleSubmit(async (value) => {
     if (value.Pasos.length === 0) {
       setError("Pasos");
       return;
@@ -109,11 +110,10 @@ const CreateRecipe = () => {
       setCaterror(null);
     }
 
-    console.log(categoriesSelected.length);
-
     const data = { ...value, categoriesSelected };
-    // value.append(categoriesSelected)
-    console.log(data);
+
+    const res = await createRecipe(data);
+    console.log(res);
   });
 
   const setRecipeCategories = (index) => {
@@ -162,10 +162,12 @@ const CreateRecipe = () => {
           <Step>
             <StepLabel>Imagen</StepLabel>
             <StepContent>
-              <Button onClick={() => previusStep()}>Anterior</Button>
-              <Button variant="contained" onClick={() => nextStep()}>
-                Siguente
-              </Button>
+              <div className="stepperbtn">
+                <Button onClick={() => previusStep()}>Anterior</Button>
+                <Button variant="contained" onClick={() => nextStep()}>
+                  Siguente
+                </Button>
+              </div>
             </StepContent>
           </Step>
           <Step>
@@ -233,10 +235,12 @@ const CreateRecipe = () => {
                   />
                 </div>
               </section>
-              <Button onClick={() => previusStep()}>Anterior</Button>
-              <Button variant="contained" onClick={() => nextStep()}>
-                Siguente
-              </Button>
+              <div className="stepperbtn">
+                <Button onClick={() => previusStep()}>Anterior</Button>
+                <Button variant="contained" onClick={() => nextStep()}>
+                  Siguente
+                </Button>
+              </div>
             </StepContent>
           </Step>
 
@@ -297,10 +301,12 @@ const CreateRecipe = () => {
                   +
                 </Button>
               </section>
-              <Button onClick={() => previusStep()}>Anterior</Button>
-              <Button variant="contained" onClick={() => nextStep()}>
-                Siguente
-              </Button>
+              <div className="stepperbtn">
+                <Button onClick={() => previusStep()}>Anterior</Button>
+                <Button variant="contained" onClick={() => nextStep()}>
+                  Siguente
+                </Button>
+              </div>
             </StepContent>
           </Step>
 
@@ -347,10 +353,12 @@ const CreateRecipe = () => {
                   +
                 </Button>
               </section>
-              <Button onClick={() => previusStep()}>Anterior</Button>
-              <Button variant="contained" onClick={() => nextStep()}>
-                Siguente
-              </Button>
+              <div className="stepperbtn">
+                <Button onClick={() => previusStep()}>Anterior</Button>
+                <Button variant="contained" onClick={() => nextStep()}>
+                  Siguente
+                </Button>
+              </div>
             </StepContent>
           </Step>
 
@@ -386,10 +394,12 @@ const CreateRecipe = () => {
                   );
                 })}
               </section>
-              <Button onClick={() => previusStep()}>Anterior</Button>
-              <Button variant="contained" onClick={() => nextStep()}>
-                Siguente
-              </Button>
+              <div className="stepperbtn">
+                <Button onClick={() => previusStep()}>Anterior</Button>
+                <Button variant="contained" onClick={() => nextStep()}>
+                  Siguente
+                </Button>
+              </div>
             </StepContent>
           </Step>
 
@@ -417,16 +427,13 @@ const CreateRecipe = () => {
                     </div>
                   ))}
                 </div>
-                <Stack
-                  style={{ padding: "2rem" }}
-                  direction={"row"}
-                  spacing={2}
-                >
+
+                <div className="stepperbtn">
                   <Button onClick={() => previusStep()}>Anterior</Button>
                   <Button variant="contained" type="submit">
                     Registrar Receta
                   </Button>
-                </Stack>
+                </div>
               </section>
             </StepContent>
           </Step>

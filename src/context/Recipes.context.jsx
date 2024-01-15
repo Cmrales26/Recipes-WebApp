@@ -1,5 +1,9 @@
 import { createContext, useContext } from "react";
-import { getRecipeHandler, getRecipesHandler } from "../api/Recipes";
+import {
+  getRecipeHandler,
+  getRecipesHandler,
+  createRecipeHandler,
+} from "../api/Recipes";
 
 export const RecipesContext = createContext();
 
@@ -13,6 +17,15 @@ export const UseRecipes = () => {
 };
 
 export const RecipesProvider = ({ children }) => {
+  const createRecipe = async (data) => {
+    try {
+      const res = createRecipeHandler(data);
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getRecipes = async () => {
     try {
       const res = await getRecipesHandler();
@@ -29,8 +42,9 @@ export const RecipesProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   return (
-    <RecipesContext.Provider value={{ getRecipes, getRecipe }}>
+    <RecipesContext.Provider value={{ getRecipes, getRecipe, createRecipe }}>
       {children}
     </RecipesContext.Provider>
   );
