@@ -1,4 +1,57 @@
 import { pool } from "../db/db.js";
+import {
+  RegisterRecipeCategories,
+  RegisterRecipeNutData,
+  RegisterRecipeSteps,
+  RegisterRecipeStuff,
+  registerRecipe,
+} from "../libs/CreateRecipe.js";
+
+export const createRecipe = async (req, res) => {
+  const data = req.body;
+  const {
+    Titulo,
+    tiempo,
+    descripcion,
+    ingredientes,
+    Pasos,
+    NutInfo,
+    categoriesSelected,
+  } = data;
+  try {
+    const res_registerRecipeId = await registerRecipe(
+      Titulo,
+      tiempo,
+      descripcion
+    );
+
+    const res_registerStuff = await RegisterRecipeStuff(
+      ingredientes,
+      res_registerRecipeId
+    );
+
+    const res_regiterSteps = await RegisterRecipeSteps(
+      Pasos,
+      res_registerRecipeId
+    );
+
+    const res_RegisterInfo = await RegisterRecipeNutData(
+      NutInfo,
+      res_registerRecipeId
+    );
+
+    const res_RegisterCat = await RegisterRecipeCategories(
+      categoriesSelected,
+      res_registerRecipeId
+    );
+
+    console.log(res_RegisterCat);
+
+    res.status(200).json("Agregado");
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
 
 export const getRecipes = async (req, res) => {
   try {
