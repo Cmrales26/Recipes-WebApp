@@ -7,6 +7,11 @@ import {
   registerRecipe,
 } from "../libs/CreateRecipe.js";
 
+import { fs } from "file-system";
+import multer from "multer";
+import sharp from "sharp";
+import path from "path";
+
 export const createRecipe = async (req, res) => {
   const data = req.body;
   const {
@@ -45,9 +50,9 @@ export const createRecipe = async (req, res) => {
       res_registerRecipeId
     );
 
-    console.log(res_RegisterCat);
+    console.log(data);
 
-    res.status(200).json("Agregado");
+    res.status(200).json(res_registerRecipeId);
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -90,4 +95,42 @@ export const getRecipy = async (req, res) => {
   } catch (error) {
     return res.status(400).json({ error: error });
   }
+};
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    return cb(null, "./public/Recipes");
+  },
+  filename: function (req, file, cb) {
+    return cb(null, file.originalname);
+  },
+});
+
+export const uploadRecipe = multer({ storage: multer.memoryStorage() });
+
+export const uploadRecipeImg = async (req, res) => {
+  const data = req.body;
+  console.log(data);
+  sharp(req.file.buffer)
+    .webp()
+    .toBuffer()
+    .then((buffer) => {
+      req.file.buffer = buffer;
+      req.file.mimetype = "image/webp";
+      const filename = path.parse(req.file.originalname).name + ".webp";
+      fs.writeFile(`./public/Recipes/${filename}`, buffer, (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ error: "Error al guardar la imagen" });
+        } else {
+          res.status(200).json({
+            message: "Imagen subida y convertida a WebP exitosamente",
+          });
+        }
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: "Error al convertir la imagen a WebP" });
+    });
 };

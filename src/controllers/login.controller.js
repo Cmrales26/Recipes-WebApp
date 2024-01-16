@@ -132,23 +132,6 @@ export const updateuser = async (req, res) => {
       profilePictureUrl = `http://localhost:5500/ProfileP/${user.username}.webp`;
     }
 
-    const newdata = {
-      username: user.username,
-      name: data.name,
-      lastname: data.lastname,
-      bio: data.bio,
-      email: data.email,
-      phone: data.phone,
-      profilePictureUrl: profilePictureUrl,
-    };
-
-    const token = await createAccesToken(newdata);
-
-    res.cookie("token", token, {
-      sameSite: "none",
-      secure: true,
-    });
-
     res.json({ message: "user updated successfully" });
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -288,7 +271,7 @@ export const getUser = async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT name, username, lastname, email FROM users WHERE username = ? OR email = ?",
+      "SELECT name, username, lastname, email, rol FROM users WHERE username = ? OR email = ?",
       [data, data]
     );
 

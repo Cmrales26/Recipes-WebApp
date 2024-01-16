@@ -30,15 +30,15 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage: multer.memoryStorage() });
 
 export const uploadProfilePhoto = (req, res) => {
+  const data = req.body;
+  console.log(data)
   sharp(req.file.buffer)
     .webp()
     .toBuffer()
     .then((buffer) => {
       req.file.buffer = buffer;
       req.file.mimetype = "image/webp";
-      // Cambia la extensión del archivo a .webp
       const filename = path.parse(req.file.originalname).name + ".webp";
-      // Guarda el archivo en el disco
       fs.writeFile(`./public/PP/${filename}`, buffer, (err) => {
         if (err) {
           console.log(err);
