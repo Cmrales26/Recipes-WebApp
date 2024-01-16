@@ -840,16 +840,28 @@ header {
 .recipes {
   padding-top: 2rem;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 2rem;
   .Recipescard {
     background-color: #fafafa;
     border-radius: 10px;
-    width: 320px;
+    width: 370px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     cursor: pointer;
     transition: 0.3s ease;
+    .title {
+      h2 {
+        text-align: center;
+        color: #1f1f1f;
+        font-size: 17px;
+      }
+    }
+    .description {
+      margin-top: .5rem;
+      min-height: 180px;
+
+    }
     figure {
       height: 210px;
       img {
@@ -863,6 +875,10 @@ header {
       margin-top: 1rem;
       display: flex;
       justify-content: space-between;
+      align-items: end;
+      .score {
+        height: 100%;
+      }
     }
     .Card-Content {
       padding: 1rem;
@@ -1013,5 +1029,13 @@ header {
     display: flex;
     justify-content: end;
     gap: 2rem;
+  }
+  .RecipePicture {
+    max-width: 500px;
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
   }
 }

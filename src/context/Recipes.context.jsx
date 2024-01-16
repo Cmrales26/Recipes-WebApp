@@ -3,6 +3,7 @@ import {
   getRecipeHandler,
   getRecipesHandler,
   createRecipeHandler,
+  uploadRecipeImgHandler,
 } from "../api/Recipes";
 
 export const RecipesContext = createContext();
@@ -19,8 +20,16 @@ export const UseRecipes = () => {
 export const RecipesProvider = ({ children }) => {
   const createRecipe = async (data) => {
     try {
-      const res = createRecipeHandler(data);
-      console.log(res);
+      const res = await createRecipeHandler(data);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const UploadRecipeimg = async (data) => {
+    try {
+      const res = await uploadRecipeImgHandler(data);
       return res;
     } catch (error) {
       console.log(error);
@@ -44,7 +53,9 @@ export const RecipesProvider = ({ children }) => {
   };
 
   return (
-    <RecipesContext.Provider value={{ getRecipes, getRecipe, createRecipe }}>
+    <RecipesContext.Provider
+      value={{ getRecipes, getRecipe, createRecipe, UploadRecipeimg }}
+    >
       {children}
     </RecipesContext.Provider>
   );

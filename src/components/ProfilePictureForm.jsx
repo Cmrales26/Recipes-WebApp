@@ -67,11 +67,7 @@ const ProfilePictureForm = (props) => {
     props.setIsEditing(true);
     props.setPpicture(selectedFile);
   };
-
-  // const uploadprofileImage = () => {
-  //
-  // };
-
+  
   return (
     <section className="PofilePictureSelect">
       {user.profilePictureUrl ? (

@@ -21,6 +21,8 @@ const RecipeCard = () => {
     return <h1>Loading ...</h1>;
   }
 
+  console.log(recipeData);
+
   return (
     <section className="recipes-Section">
       <h1>RECETAS</h1>
@@ -35,8 +37,12 @@ const RecipeCard = () => {
               <img src={recipe.ImagenURL} alt={`Imagen de ${recipe.Titulo}`} />
             </figure>
             <div className="Card-Content">
-              <h2>{recipe.Titulo}</h2>
-              <p>{recipe.descripcion}</p>
+              <div className="title">
+                <h2>{recipe.Titulo}</h2>
+              </div>
+              <div className="description">
+                <p>{recipe.Descripcion}</p>
+              </div>
               <div className="score-time">
                 <div className="score">
                   <Box>

@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Button,
+  Stack,
   Step,
   StepContent,
   StepLabel,
   Stepper,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { UseCategories } from "../../context/Categories.context";
 import { UseRecipes } from "../../context/Recipes.context";
@@ -18,9 +19,12 @@ const CreateRecipe = () => {
   const [datacategories, setDataCategories] = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState([]);
   const { getCategories, loading } = UseCategories();
-  const { createRecipe } = UseRecipes();
+  const { createRecipe, UploadRecipeimg } = UseRecipes();
   const [activeStep, setActiveStep] = useState(0);
   const [caterror, setCaterror] = useState(null);
+  const [file, setFile] = useState();
+  const [RecipePicture, setRecipePicture] = useState("");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const FetchinData = async () => {
@@ -113,7 +117,19 @@ const CreateRecipe = () => {
     const data = { ...value, categoriesSelected };
 
     const res = await createRecipe(data);
-    console.log(res);
+
+    let FileName = res.data;
+
+    const PictureData = new FormData();
+    PictureData.append("file", file, FileName);
+
+    if (res.status === 200) {
+      const end = await UploadRecipeimg(PictureData);
+      if (end.status === 200) {
+        // AGREGAR ALERTA
+        location.reload();
+      }
+    }
   });
 
   const setRecipeCategories = (index) => {
@@ -140,10 +156,23 @@ const CreateRecipe = () => {
     );
   };
   const nextStep = async () => {
+    console.log(activeStep);
     setActiveStep(activeStep + 1);
   };
   const previusStep = () => {
     setActiveStep(activeStep - 1);
+  };
+
+  const RecipePicHandler = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    if (selectedFile) {
+      setRecipePicture(URL.createObjectURL(selectedFile));
+    }
+  };
+
+  const getStep = (value) => {
+    setActiveStep(value);
   };
   return (
     <>
@@ -157,21 +186,45 @@ const CreateRecipe = () => {
         className="CreateRecipeForm"
         onSubmit={onSubmit}
       >
-        {}
         <Stepper orientation="vertical" activeStep={activeStep}>
           <Step>
-            <StepLabel>Imagen</StepLabel>
+            <StepLabel onClick={() => getStep(0)}>Imagen</StepLabel>
             <StepContent>
+              <div className="">
+                <figure className="RecipePicture">
+                  <img src={RecipePicture} />
+                </figure>
+                <Stack direction="row" spacing={2}>
+                  <label htmlFor="file-upload">
+                    <Button
+                      component="span"
+                      variant="contained"
+                      size="small"
+                      style={{ width: "100%" }}
+                    >
+                      Selecionar foto de la receta
+                    </Button>
+                  </label>
+                  <input
+                    ref={fileInputRef}
+                    id="file-upload"
+                    type="file"
+                    accept=".jpg, .jpeg, .png, .webp"
+                    style={{ display: "none" }}
+                    onChange={RecipePicHandler}
+                  />
+                </Stack>
+              </div>
               <div className="stepperbtn">
-                <Button onClick={() => previusStep()}>Anterior</Button>
                 <Button variant="contained" onClick={() => nextStep()}>
                   Siguente
                 </Button>
               </div>
             </StepContent>
           </Step>
+
           <Step>
-            <StepLabel>Informacion</StepLabel>
+            <StepLabel onClick={() => getStep(1)}>Informacion</StepLabel>
             {errors.Titulo && <p className="error">{errors.Titulo.message}</p>}
             {errors.tiempo && <p className="error">{errors.tiempo.message}</p>}
             {errors.descripcion && (
@@ -245,7 +298,7 @@ const CreateRecipe = () => {
           </Step>
 
           <Step>
-            <StepLabel>Ingredientes</StepLabel>
+            <StepLabel onClick={() => getStep(2)}>Ingredientes</StepLabel>
             {errors.ingredientes && (
               <p className="error">Los ingredientes Son requeridos</p>
             )}
@@ -311,7 +364,9 @@ const CreateRecipe = () => {
           </Step>
 
           <Step>
-            <StepLabel>Intrucciones / Pasos</StepLabel>
+            <StepLabel onClick={() => getStep(3)}>
+              Intrucciones / Pasos
+            </StepLabel>
             {errors.Pasos && <p className="error">Los Pasos Son requeridos</p>}
             <StepContent>
               <section className="Pasos">
@@ -363,7 +418,9 @@ const CreateRecipe = () => {
           </Step>
 
           <Step>
-            <StepLabel>Información Nutricional </StepLabel>
+            <StepLabel onClick={() => getStep(4)}>
+              Información Nutricional{" "}
+            </StepLabel>
 
             {errors.NutInfo && (
               <p className="error">Los valores son requeridos</p>
@@ -404,7 +461,7 @@ const CreateRecipe = () => {
           </Step>
 
           <Step>
-            <StepLabel>Categorias</StepLabel>
+            <StepLabel onClick={() => getStep(5)}>Categorias</StepLabel>
             {caterror ? (
               <p className="error">Selecione al menos una categoria</p>
             ) : null}
