@@ -8,6 +8,9 @@
 .error {
   color: #e64b4b !important;
 }
+html {
+  scroll-behavior: smooth;
+}
 .servereror {
   text-align: center;
   color: #e64b4b;
@@ -858,9 +861,8 @@ header {
       }
     }
     .description {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       min-height: 180px;
-
     }
     figure {
       height: 210px;
@@ -892,6 +894,7 @@ header {
 /* RECIPE VIEW */
 .recipeContainer {
   margin-top: 6rem;
+  height: 350px;
 
   .RecipeimgContainer {
     position: absolute;
@@ -899,7 +902,7 @@ header {
 
     img {
       width: 100%;
-      height: 300px;
+      height: 350px;
       object-fit: cover;
     }
 
@@ -910,7 +913,7 @@ header {
       top: 0;
       left: 0;
       width: 100%;
-      height: 300px;
+      height: 350px;
       background: rgba(0, 0, 0, 0.5);
       z-index: 1;
     }
@@ -922,9 +925,16 @@ header {
     display: flex;
     position: relative;
     z-index: 2;
-    padding: 2rem;
+    padding: 2rem 0rem 0rem 2rem;
     .info {
-      width: 50%;
+      width: 100%;
+      .maininfo {
+        width: 70%;
+        margin-top: 1rem;
+        h1 {
+          margin-bottom: 1rem;
+        }
+      }
     }
     .categories {
       margin-top: 1rem;
@@ -937,22 +947,80 @@ header {
       }
     }
     .Starandtime {
+      margin-top: 1rem;
       display: flex;
+      gap: 2rem;
       align-items: center;
       .Time {
-        margin-top: 1rem;
+        /* margin-top: 1rem; */
         display: flex;
         gap: 1rem;
         align-items: center;
       }
-      .MuiRating-icon {
-        margin-top: 1rem;
+      a {
+        color: #fff;
+        text-decoration: none;
       }
       .MuiRating-iconEmpty {
         color: white !important;
         opacity: 0.55;
       }
+      .MuiBox-root {
+        width: fit-content;
+      }
     }
+  }
+}
+.IngredentsContainer {
+  padding: 2rem 2rem;
+  margin: 0rem 7rem;
+  h2 {
+    color: #303030;
+    margin-bottom: 1rem;
+  }
+  .ingredents {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background-color: #fafafa;
+  }
+  p {
+    font-size: 17px;
+  }
+}
+.IntructionsContainer {
+  padding: 0rem 2rem;
+  margin: 0rem 7rem;
+  h2 {
+    color: #303030;
+  }
+
+  .MuiStepper-vertical {
+    padding: 2rem;
+  }
+  .MuiSvgIcon-root {
+    color: #1f1f1f !important;
+  }
+}
+.Nutritional {
+  padding: 0rem 2rem;
+  margin: 0rem 7rem;
+  h2 {
+    color: #303030;
+    margin-bottom: 1rem;
+    span {
+      font-size: small;
+    }
+  }
+  .NutsTable {
+    width: fit-content;
+    text-align: center;
+    padding: 1rem;
+    display: flex;
+    gap: 5rem;
   }
 }
 
