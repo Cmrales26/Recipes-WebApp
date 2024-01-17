@@ -80,7 +80,7 @@ export const getRecipy = async (req, res) => {
   console.log(id_receta);
   try {
     const [receta] = await pool.query(
-      "SELECT r.id_receta, r.ImagenURL, r.Titulo, r.Instrucciones, r.Ingredientes,r.descripcion, r.Tiempo, r.InfoNutricional, ROUND(AVG(us.calificacion), 1) AS promedio_calificaciones FROM recetas r LEFT JOIN user_score us ON r.id_receta = us._id_receta WHERE id_receta = ? GROUP BY r.id_receta, r.ImagenURL, r.Titulo, r.Instrucciones, r.Ingredientes, r.Tiempo, r.InfoNutricional",
+      "SELECT recetas.*, ingredientes.ingredientes, pasos.instrucciones, informacion_nutricional.nutrientes,  (SELECT AVG(user_score.calificacion) FROM user_score WHERE user_score._id_receta = recetas.id_receta) as Promedio_Calificacion FROM recetas JOIN ingredientes ON recetas.id_receta = ingredientes.id_receta JOIN pasos ON recetas.id_receta = pasos.id_receta JOIN informacion_nutricional ON recetas.id_receta = informacion_nutricional.id_receta WHERE recetas.id_receta = ?",
       [id_receta]
     );
 
