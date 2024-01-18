@@ -21,8 +21,6 @@ const RecipeCard = () => {
     return <h1>Loading ...</h1>;
   }
 
-  console.log(recipeData);
-
   return (
     <section className="recipes-Section">
       <h1>RECETAS</h1>

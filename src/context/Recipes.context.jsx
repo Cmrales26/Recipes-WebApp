@@ -4,10 +4,12 @@ import {
   getRecipesHandler,
   createRecipeHandler,
   uploadRecipeImgHandler,
+  RecipeScoreHandler,
+  serRecipeScoreHandler,
+  updateReviewHandler,
 } from "../api/Recipes";
 
 export const RecipesContext = createContext();
-
 
 export const UseRecipes = () => {
   const context = useContext(RecipesContext);
@@ -24,7 +26,7 @@ export const RecipesProvider = ({ children }) => {
       const res = await createRecipeHandler(data);
       return res;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 
@@ -33,7 +35,7 @@ export const RecipesProvider = ({ children }) => {
       const res = await uploadRecipeImgHandler(data);
       return res;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
   const getRecipes = async () => {
@@ -41,7 +43,7 @@ export const RecipesProvider = ({ children }) => {
       const res = await getRecipesHandler();
       return res;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
   const getRecipe = async (id_receta) => {
@@ -49,13 +51,46 @@ export const RecipesProvider = ({ children }) => {
       const res = await getRecipeHandler(id_receta);
       return res;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 
+  const getUserScore = async (data) => {
+    try {
+      const res = await RecipeScoreHandler(data);
+      return res;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const setUserScore = async (data) => {
+    try {
+      const res = await serRecipeScoreHandler(data);
+      return res;
+    } catch (error) {
+      return error;
+    }
+  };
+  const updateScore = async (data) => {
+    try {
+      const res = await updateReviewHandler(data);
+      return res
+    } catch (error) {
+      return error;
+    }
+  };
   return (
     <RecipesContext.Provider
-      value={{ getRecipes, getRecipe, createRecipe, UploadRecipeimg }}
+      value={{
+        getRecipes,
+        getRecipe,
+        createRecipe,
+        UploadRecipeimg,
+        getUserScore,
+        setUserScore,
+        updateScore,
+      }}
     >
       {children}
     </RecipesContext.Provider>

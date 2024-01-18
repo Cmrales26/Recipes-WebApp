@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginUserForm from "../components/LoginUserForm";
 import CreateUserForm from "../components/CreateUserForm";
 import UserSelectCategories from "../components/UserSelectCategories";
@@ -9,26 +9,42 @@ const Login = () => {
   const location = useLocation();
   const [isCreating, setIscreating] = useState(false);
   const [isSelecting, setIsselecting] = useState(false);
+  const [isLoginToReview, setIsloginToReview] = useState(false);
+  const [stateusername, setstateusername] = useState();
+  const [recipeId, setRecipeId] = useState();
 
   const { isAuth, user, loading } = UseUser();
 
+  useEffect(() => {
+    if (location.state !== null) {
+      if (location.state.username === null) {
+        setstateusername(null);
+      } else {
+        setstateusername(location.state.username);
+      }
+
+      if (location.state.RecipeId === null) {
+        setRecipeId(null);
+      } else {
+        setRecipeId(location.state.RecipeId);
+        setIsloginToReview(true);
+      }
+    }
+  }, []);
+
   if (loading) {
     return <div>Loading...</div>;
-  }
-
-  let stateusername = "";
-
-  if (location.state === null) {
-    stateusername = null;
-  } else {
-    stateusername = location.state.username;
   }
 
   return (
     <div className={isSelecting ? "selectingCategories" : "InitForm"}>
       {isAuth ? (
         user.rol === "user" ? (
-          <Navigate to="/home" />
+          isLoginToReview ? (
+            <Navigate to={`/recipe/${recipeId}`} />
+          ) : (
+            <Navigate to="/home" />
+          )
         ) : user.rol === "admin" ? (
           <Navigate to="/admin" />
         ) : (
