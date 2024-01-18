@@ -69,3 +69,4 @@ export const RegisterRecipeCategories = async (data, id) => {
     return error;
   }
 };
+
