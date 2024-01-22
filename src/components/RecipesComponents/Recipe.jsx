@@ -11,7 +11,11 @@ import {
   TextField,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faArrowDown,
+  faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { UseUser } from "../../context/user.context";
 import { useNavigate, useParams } from "react-router-dom";
 import RatingRecipe from "../../../public/images/RatingRecipe.svg";
@@ -140,7 +144,7 @@ export const ReipeHeader = (props) => {
                   </Box>
                 </a>
                 <div className="Time">
-                  <FontAwesomeIcon className="SearchIcon" icon={faClock} />
+                  <FontAwesomeIcon icon={faClock} />
                   <p> {recipeinfo.Tiempo}</p>
                 </div>
               </div>
@@ -206,8 +210,10 @@ export const Reviews = (props) => {
   const [comment, setComment] = useState();
   const [isEditing, setisEditing] = useState(false);
   const [reviewId, setReviewId] = useState("");
+  const [reviews, setReviews] = useState([]);
+  const [visibleReview, setVisibleReview] = useState(4);
   const params = useParams();
-  const { getUserScore } = UseRecipes();
+  const { getUserScore, getReviews } = UseRecipes();
 
   useEffect(() => {
     const getScoreData = async () => {
@@ -226,6 +232,29 @@ export const Reviews = (props) => {
     };
     getScoreData();
   }, [props.user]);
+
+  useEffect(() => {
+    const getReviewsData = async () => {
+      if (props.user !== null && props.user !== undefined) {
+        const res = await getReviews({
+          username: props.user.username,
+          recipe_id: params.recipeCode,
+        });
+        setReviews(res.data);
+      } else {
+        const res = await getReviews({
+          username: null,
+          recipe_id: params.recipeCode,
+        });
+        setReviews(res.data);
+      }
+    };
+    getReviewsData();
+  }, [props.user]);
+
+  const showMoreReviews = () => {
+    setVisibleReview((prevValue) => prevValue + 3);
+  };
 
   return (
     <section id="ReviewsContainer">
@@ -259,6 +288,45 @@ export const Reviews = (props) => {
             <LoginReviewRecipe recipeID={params.recipeCode} />
           )}
         </div>
+      </div>
+      <h2 style={{ marginTop: "2rem" }}>Reseñas</h2>
+      {reviews.slice(0, visibleReview).map((reviews, i) => (
+        <div style={{ paddingBlock: ".5rem" }} key={i}>
+          <h4>
+            {reviews.name} {reviews.lastname}
+          </h4>
+          <Rating size="small" readOnly value={Number(reviews.calificacion)} />
+          <p>{reviews.comentario}</p>
+          <hr style={{ marginTop: "1rem" }} />
+        </div>
+      ))}
+      <div
+        className=""
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {visibleReview >= reviews.length ? (
+          reviews.length < visibleReview ? null : (
+            <Button onClick={() => setVisibleReview(4)}>
+              Ocultar
+              <FontAwesomeIcon
+                style={{ marginLeft: "1rem" }}
+                icon={faArrowUp}
+              />
+            </Button>
+          )
+        ) : (
+          <Button onClick={showMoreReviews}>
+            Ver más
+            <FontAwesomeIcon
+              style={{ marginLeft: "1rem" }}
+              icon={faArrowDown}
+            />
+          </Button>
+        )}
       </div>
     </section>
   );

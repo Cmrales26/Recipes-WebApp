@@ -12,6 +12,7 @@ const Home = () => {
     if (isAuth && user.rol === "admin") {
       Navigate("/admin");
     }
+    console.log(user)
   }, [isAuth]);
 
   return (

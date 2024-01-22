@@ -23,6 +23,7 @@ const CreateRecipe = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [caterror, setCaterror] = useState(null);
   const [file, setFile] = useState();
+  const [fileError, setFileError] = useState();
   const [RecipePicture, setRecipePicture] = useState("");
   const fileInputRef = useRef(null);
 
@@ -38,7 +39,8 @@ const CreateRecipe = () => {
     if (categoriesSelected.length !== 0) {
       setCaterror(null);
     }
-  }, [categoriesSelected]);
+    setFileError("");
+  }, [categoriesSelected, file]);
 
   const {
     register,
@@ -114,6 +116,11 @@ const CreateRecipe = () => {
       setCaterror(null);
     }
 
+    if (!RecipePicture) {
+      setFileError("Debe agregar la foto de la receta");
+      return;
+    }
+
     const data = { ...value, categoriesSelected };
 
     const res = await createRecipe(data);
@@ -156,7 +163,6 @@ const CreateRecipe = () => {
     );
   };
   const nextStep = async () => {
-    console.log(activeStep);
     setActiveStep(activeStep + 1);
   };
   const previusStep = () => {
@@ -189,6 +195,7 @@ const CreateRecipe = () => {
         <Stepper orientation="vertical" activeStep={activeStep}>
           <Step>
             <StepLabel onClick={() => getStep(0)}>Imagen</StepLabel>
+            {fileError ? <p className="error">{fileError}</p> : null}
             <StepContent>
               <div className="">
                 <figure className="RecipePicture">
@@ -250,7 +257,7 @@ const CreateRecipe = () => {
                     <TextField
                       required
                       label="Duración"
-                      type="number"
+                      type="text"
                       {...register("tiempo", {
                         required: {
                           value: true,
@@ -321,9 +328,9 @@ const CreateRecipe = () => {
                       <TextField
                         required
                         label="Cantidad"
-                        type="number"
+                        type="text"
                         {...register(`ingredientes.${index}.amount`, {
-                          valueAsNumber: true,
+                          valueAsNumber: false,
                         })}
                       />
                       <Button
@@ -333,10 +340,7 @@ const CreateRecipe = () => {
                         variant="contained"
                         onClick={() => remove(index)}
                       >
-                        <FontAwesomeIcon
-                          className="SearchIcon"
-                          icon={faTrash}
-                        />
+                        <FontAwesomeIcon icon={faTrash} />
                       </Button>
                     </section>
                   );

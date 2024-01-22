@@ -7,6 +7,7 @@ import {
   RecipeScoreHandler,
   serRecipeScoreHandler,
   updateReviewHandler,
+  getReviewsHandler,
 } from "../api/Recipes";
 
 export const RecipesContext = createContext();
@@ -75,7 +76,16 @@ export const RecipesProvider = ({ children }) => {
   const updateScore = async (data) => {
     try {
       const res = await updateReviewHandler(data);
-      return res
+      return res;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const getReviews = async (data) => {
+    try {
+      const res = await getReviewsHandler(data);
+      return res;
     } catch (error) {
       return error;
     }
@@ -90,6 +100,7 @@ export const RecipesProvider = ({ children }) => {
         getUserScore,
         setUserScore,
         updateScore,
+        getReviews,
       }}
     >
       {children}

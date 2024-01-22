@@ -14,5 +14,8 @@ export const RecipeScoreHandler = (data) =>
 export const serRecipeScoreHandler = (data) =>
   axios.post("/recipe/setReview", data);
 
+export const getReviewsHandler = (data) =>
+  axios.post("/recipe/getReviews", data);
+
 export const updateReviewHandler = (data) =>
   axios.patch("/recipe/updateReview", data);

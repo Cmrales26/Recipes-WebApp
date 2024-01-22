@@ -839,6 +839,10 @@ header {
   margin-top: 6rem;
   padding: 1.5rem;
   background-color: #fafafa;
+  h1{
+    margin-top: 2rem;
+    text-align: center;
+  }
 }
 .recipes {
   padding-top: 2rem;

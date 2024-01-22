@@ -25,7 +25,7 @@ const RecipeCard = () => {
     <section className="recipes-Section">
       <h1>RECETAS</h1>
       <div className="recipes">
-        {recipeData.map((recipe, index) => (
+        {recipeData.slice(0,6).map((recipe, index) => (
           <div
             key={index}
             className="Recipescard"
@@ -38,9 +38,9 @@ const RecipeCard = () => {
               <div className="title">
                 <h2>{recipe.Titulo}</h2>
               </div>
-              <div className="description">
+              {/* <div className="description">
                 <p>{recipe.Descripcion}</p>
-              </div>
+              </div> */}
               <div className="score-time">
                 <div className="score">
                   <Box>
