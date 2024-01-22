@@ -184,3 +184,25 @@ export const updateUserScore = async (req, res) => {
     return res.status(404).json({ message: error });
   }
 };
+
+export const getReviews = async (req, res) => {
+  try {
+    const { username, recipe_id } = req.body;
+
+    if (username !== null) {
+      const [rows] = await pool.query(
+        "SELECT users.name, users.lastname, user_score.calificacion, user_score.comentario  from user_score  join users on user_score._username = users.username where user_score._id_receta = ? AND user_score._username != ? ",
+        [recipe_id, username]
+      );
+      res.status(200).json(rows);
+    } else {
+      const [rows] = await pool.query(
+        "SELECT users.name, users.lastname, user_score.calificacion, user_score.comentario  from user_score  join users on user_score._username = users.username where user_score._id_receta = ?",
+        [recipe_id]
+      );
+      res.status(200).json(rows);
+    }
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+};
