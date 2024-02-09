@@ -138,7 +138,8 @@ header {
   z-index: 99;
   position: fixed !important;
   top: 0;
-  background-color: #fafafa !important;
+  background-color: white !important;
+  box-shadow: none !important;
   padding: 1rem;
   .css-hyum1k-MuiToolbar-root {
     display: flex !important;
@@ -171,7 +172,11 @@ header {
     font-size: 25px;
     margin-left: 1rem;
   }
+  .MuiPaper-elevation {
+    box-shadow: none;
+  }
 }
+
 /* MENU NAV */
 .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
   background-color: transparent !important;
@@ -839,7 +844,7 @@ header {
   margin-top: 6rem;
   padding: 1.5rem;
   background-color: #fafafa;
-  h1{
+  h1 {
     margin-top: 2rem;
     text-align: center;
   }
@@ -897,6 +902,7 @@ header {
 
 /* RECIPE VIEW */
 .recipeContainer {
+  background-color: #fafafa;
   margin-top: 6rem;
   height: 350px;
 
@@ -989,7 +995,7 @@ header {
     padding: 1rem 2rem;
     border-radius: 10px;
     margin-bottom: 1rem;
-    background-color: #fafafa;
+    background-color: white;
   }
   p {
     font-size: 17px;
@@ -1039,6 +1045,7 @@ header {
   }
 }
 #Reviews {
+  background-color: white;
   margin-top: 1rem;
   padding: 2rem 2rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -1085,6 +1092,36 @@ header {
       border: 1px solid #d8d6d6;
       border-radius: 10px;
       padding: 1rem;
+    }
+  }
+}
+
+/* FOOTER */
+#Footer {
+  padding: 2rem;
+  justify-content: center;
+  .Imagotipo {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .FooterRight {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    p {
+      font-size: 12px;
+      margin-top: 0.5rem;
+      text-align: right;
+      a {
+        text-decoration: none;
+        color: #3c9eef;
+        font-weight: 700;
+      }
     }
   }
 }

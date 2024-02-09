@@ -25,11 +25,13 @@ const RecipeCard = () => {
     <section className="recipes-Section">
       <h1>RECETAS</h1>
       <div className="recipes">
-        {recipeData.slice(0,6).map((recipe, index) => (
+        {recipeData.slice(0, 6).map((recipe, index) => (
           <div
             key={index}
             className="Recipescard"
-            onClick={() => Navigate(`/recipe/${recipe.id_receta}`)}
+            onClick={() => {
+              window.location.href = `/recipe/${recipe.id_receta}`;
+            }}
           >
             <figure>
               <img src={recipe.ImagenURL} alt={`Imagen de ${recipe.Titulo}`} />

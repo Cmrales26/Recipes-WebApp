@@ -8,7 +8,9 @@ const RecipeInfo = () => {
   return (
     <>
       <Navbar />
-      <Recipe recipeCode={params.recipeCode}></Recipe>
+      <section style={{ backgroundColor: "#fafafa" }}>
+        <Recipe recipeCode={params.recipeCode}></Recipe>
+      </section>
     </>
   );
 };

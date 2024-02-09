@@ -19,6 +19,7 @@ import DisableAccount from "./pages/DisableAccount";
 import EnableAccount from "./pages/EnableAccount";
 import RecipeInfo from "./pages/RecipeInfo";
 import Admin from "./pages/Admin";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
               </Route>
             </Routes>
           </RecipesProvider>
+          <Footer />
         </CategoriesProvider>
       </UserProvider>
     </BrowserRouter>
