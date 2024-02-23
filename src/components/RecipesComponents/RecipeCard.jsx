@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { UseRecipes } from "../../context/Recipes.context";
 import { Box, Rating, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+import PageController from "./PageController";
 
 const RecipeCard = () => {
-  const Navigate = useNavigate();
   const { getRecipes } = UseRecipes();
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [initRange, setInitRange] = useState(0);
+  const [lastRange, setLastRange] = useState(6);
+  const numofsteps = 6;
+
   const [recipeData, setRecipeData] = useState(null);
   useEffect(() => {
     const getdata = async () => {
@@ -23,9 +30,16 @@ const RecipeCard = () => {
 
   return (
     <section className="recipes-Section">
-      <h1>RECETAS</h1>
+      <div className="recipes-header">
+        <h1>RECETAS</h1>
+        <a href="#">
+          Ver todo <FontAwesomeIcon icon={faArrowRight} />
+        </a>
+      </div>
       <div className="recipes">
-        {recipeData.slice(0, 6).map((recipe, index) => (
+        {console.log(initRange)}
+        {console.log(lastRange)}
+        {recipeData.slice(initRange, lastRange).map((recipe, index) => (
           <div
             key={index}
             className="Recipescard"
@@ -34,15 +48,16 @@ const RecipeCard = () => {
             }}
           >
             <figure>
-              <img src={recipe.ImagenURL} alt={`Imagen de ${recipe.Titulo}`} />
+              <img
+                loading="lazy"
+                src={recipe.ImagenURL}
+                alt={`Imagen de ${recipe.Titulo}`}
+              />
             </figure>
             <div className="Card-Content">
               <div className="title">
                 <h2>{recipe.Titulo}</h2>
               </div>
-              {/* <div className="description">
-                <p>{recipe.Descripcion}</p>
-              </div> */}
               <div className="score-time">
                 <div className="score">
                   <Box>
@@ -54,12 +69,25 @@ const RecipeCard = () => {
                     />
                   </Box>
                 </div>
-                <div className="time">{recipe.Tiempo}</div>
+                <div className="time">
+                  <FontAwesomeIcon icon={faClock} /> {""}
+                  {recipe.Tiempo}
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
+      <PageController
+        page={page}
+        initRange={initRange}
+        lastRange={lastRange}
+        recipeData={recipeData}
+        numofsteps={numofsteps}
+        setInitRange={setInitRange}
+        setLastRange={setLastRange}
+        setPage={setPage}
+      ></PageController>
     </section>
   );
 };

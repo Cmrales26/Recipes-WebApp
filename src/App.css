@@ -842,11 +842,26 @@ header {
 /* CARDS */
 .recipes-Section {
   margin-top: 6rem;
-  padding: 1.5rem;
   background-color: #fafafa;
-  h1 {
-    margin-top: 2rem;
-    text-align: center;
+
+  .recipes-header {
+    padding: 1rem 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    a {
+      text-decoration: none;
+      color: #3c9eef !important;
+    }
+  }
+
+  #PageController {
+    justify-content: end;
+    padding: 2rem 5rem;
+    display: flex;
+    align-items: center;
+    gap: 20px;
   }
 }
 .recipes {
@@ -886,7 +901,6 @@ header {
       margin-top: 1rem;
       display: flex;
       justify-content: space-between;
-      align-items: end;
       .score {
         height: 100%;
       }

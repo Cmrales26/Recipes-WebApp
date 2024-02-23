@@ -308,12 +308,10 @@ export const Reviews = (props) => {
           alignItems: "center",
         }}
       >
-        {console.log(reviews.length)}
-        {console.log(visibleReview)}
         {visibleReview >= reviews.length ? (
           reviews.length === 0 ? (
             <div>Esta receta aún no tiene reseñas</div>
-          ) : reviews.length < visibleReview ? null : (
+          ) : reviews.length < visibleReview - 1 ? null : (
             <Button onClick={() => setVisibleReview(4)}>
               Ocultar
               <FontAwesomeIcon
