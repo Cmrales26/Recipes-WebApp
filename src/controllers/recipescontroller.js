@@ -75,6 +75,24 @@ export const getRecipes = async (req, res) => {
   }
 };
 
+export const getFavRecipe = async (req, res) => {
+  try {
+    const [row] = await pool.query(
+      "SELECT recetas.id_receta, recetas.Titulo, AVG(user_score.calificacion) AS promedio from recetas join user_score on recetas.id_receta = user_score._id_receta group by recetas.id_receta, recetas.Titulo order by promedio desc limit 6;"
+    );
+    for (let i = 0; i < row.length; i++) {
+      row[
+        i
+      ].ImagenURL = `http://localhost:5500/Recipes/${row[i].id_receta}.webp`;
+    }
+    return res.status(200).json(row);
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ message: "error al consultar recetas favoritas" });
+  }
+};
+
 export const getRecipy = async (req, res) => {
   const id_receta = req.params.id_receta;
   try {

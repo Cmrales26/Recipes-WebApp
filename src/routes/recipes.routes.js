@@ -9,6 +9,7 @@ import {
   setUserScore,
   updateUserScore,
   getReviews,
+  getFavRecipe,
 } from "../controllers/recipescontroller.js";
 
 const router = Router();
@@ -17,6 +18,7 @@ router.route("/create/recipe").post(createRecipe);
 
 router.route("/recipes").get(getRecipes);
 router.route("/recipes/:id_receta").get(getRecipy);
+router.route("/favrecipe").get(getFavRecipe);
 router.route("/recipe/userScore").post(getUserScore);
 
 router.route("/recipe/getReviews").post(getReviews);
