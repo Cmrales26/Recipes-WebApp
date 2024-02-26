@@ -37,8 +37,6 @@ const RecipeCard = () => {
         </a>
       </div>
       <div className="recipes">
-        {console.log(initRange)}
-        {console.log(lastRange)}
         {recipeData.slice(initRange, lastRange).map((recipe, index) => (
           <div
             key={index}

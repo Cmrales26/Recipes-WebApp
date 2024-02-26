@@ -8,6 +8,7 @@ import {
   serRecipeScoreHandler,
   updateReviewHandler,
   getReviewsHandler,
+  getFavRecipeHandler,
 } from "../api/Recipes";
 
 export const RecipesContext = createContext();
@@ -82,6 +83,15 @@ export const RecipesProvider = ({ children }) => {
     }
   };
 
+  const getRecipewithbestscore = async () => {
+    try {
+      const res = await getFavRecipeHandler();
+      return res;
+    } catch (error) {
+      return error;
+    }
+  };
+
   const getReviews = async (data) => {
     try {
       const res = await getReviewsHandler(data);
@@ -90,6 +100,7 @@ export const RecipesProvider = ({ children }) => {
       return error;
     }
   };
+
   return (
     <RecipesContext.Provider
       value={{
@@ -101,6 +112,7 @@ export const RecipesProvider = ({ children }) => {
         setUserScore,
         updateScore,
         getReviews,
+        getRecipewithbestscore,
       }}
     >
       {children}
