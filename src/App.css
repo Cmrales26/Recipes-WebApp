@@ -1173,6 +1173,29 @@ header {
   color: #3c9eef !important;
 }
 
+#Categories {
+  padding: 2rem 4rem;
+  background-color: #fafafa;
+
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  .CategorieName {
+    border-radius: 15px;
+    /* background-color: rgba(60, 158, 239, 0.8); */
+    background-color: white;
+    border: 1.8px solid #3c9eef;
+    padding: 0.4rem 0rem;
+    text-align: center;
+    cursor: pointer;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    display: none;
+  }
+}
+
 /* FOOTER */
 #Footer {
   padding: 2rem;

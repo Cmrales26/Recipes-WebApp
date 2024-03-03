@@ -18,14 +18,13 @@ const FavoritesCards = (favrecipes) => {
     return;
   }
 
-  console.log(recipeinfo);
-
   var settings = {
     dots: true,
-    infinite: false,
-    speed: 500,
+    infinite: true,
     slidesToShow: 3,
     slidesToScroll: 1,
+    swipeToSlide: true,
+
     responsive: [
       {
         breakpoint: 1024,
